@@ -1,0 +1,15 @@
+schema: minilab.ui.fix_queue.v1
+document_type: generated_fix_queue
+generated_from:
+- 12.showcase-manifest.yaml
+- 13.visual-audit-rules.yaml
+status: empty_initial_queue
+fixes: []
+example_shape:
+  id: fix-001
+  component: RegistryTypeTable
+  state: dense
+  problem: overflow
+  severity: high
+  action: add_column_truncation
+  status: open

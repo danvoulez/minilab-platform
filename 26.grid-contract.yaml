@@ -1,0 +1,107 @@
+schema: minilab.ui.grid_contract.v1
+document_type: grid_contract
+product: minilab.work official UI
+
+name: Operational Temperature Grid
+purpose: >-
+  A page-level layout contract that separates operational temperature from
+  raw information density. Pages declare what is hot, warm, cold, and raw;
+  renderers decide placement and disclosure from that declaration.
+
+zones:
+  header:
+    purpose: identity, title, lede, primary question
+    required: true
+    default_position: top
+    visual_behavior:
+      - stable
+      - calm
+      - max_width_prose_for_lede
+    allowed_content:
+      - PageHeader
+      - PageIntentHeader
+      - status_summary_when_compact
+
+  hot:
+    purpose: urgent, recent, unstable, blocking, actionable
+    required: false
+    default_position: above_fold
+    default_state: expanded
+    max_visible_default: 3
+    visual_behavior:
+      - domain_specific_component
+      - action_visible
+      - human_copy
+      - no_large_tables
+      - no_raw_payload
+    allowed_content:
+      - hot_components
+      - selected_problem
+      - actionable_ghost
+      - pending_gate
+      - blocker
+      - due_or_expiring_obligation
+
+  warm:
+    purpose: active, monitored, relevant but not immediately blocking
+    required: false
+    default_position: middle
+    default_state: compact_visible
+    max_visible_default: 4
+    visual_behavior:
+      - grouped
+      - compact
+      - opens_preview
+      - low_emphasis_actions
+    allowed_content:
+      - active_lists
+      - selected_entity_summary
+      - in_progress_items
+      - short_timeline
+
+  cold:
+    purpose: normal, stable, old, statistical, searchable, auditable
+    required: false
+    default_position: below_primary
+    default_state: collapsed_or_compact
+    visual_behavior:
+      - standard_templates
+      - searchable
+      - sortable
+      - dense_allowed
+      - muted
+    allowed_content:
+      - cold_templates
+      - archives
+      - statistics
+      - breakdowns
+      - history
+      - healthy_inventory
+
+  raw:
+    purpose: technical payload, ids, JSON, debug/source details
+    required: false
+    default_position: inspector_disclosure
+    default_state: collapsed
+    visual_behavior:
+      - monospace_when_needed
+      - never_primary_surface
+      - disclosure_only
+    allowed_content:
+      - ColdRawPayload
+      - ids
+      - json
+      - source_payload
+
+rules:
+  - every_page_has_header_zone
+  - every_page_has_primary_question
+  - hot_zone_must_answer_what_needs_attention_now
+  - cold_zone_must_use_standard_templates
+  - raw_must_not_compete_with_human_reading
+  - healthy_items_default_to_compact_or_cold
+  - problematic_items_may_promote_to_hot
+  - duplicated_middle_details_move_to_inspector
+  - cold_sections_can_be_dense_but_must_be_predictable
+  - no_page_specific_cold_layouts_without_manifest_reason
+  - no_hot_zone_with_raw_payload

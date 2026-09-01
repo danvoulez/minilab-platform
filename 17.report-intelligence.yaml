@@ -1,0 +1,33 @@
+schema: minilab.ui.report_intelligence.v1
+document_type: report_intelligence
+lab_report:
+  computed_on_load: true
+  not_cron: true
+  renderer: MinilabMarkdown
+  inputs:
+  - machines
+  - sensors
+  - ghosts
+  - receipts
+  - workorders
+  - schedules
+  - finance_records
+  - human_checkins
+  - registry_entities
+  sections:
+  - greeting
+  - what_happened
+  - needs_attention
+  - cannot_wait
+  - accomplishments
+  - appointments_today
+  - suggested_actions
+  output:
+    format: markdown
+    actions: ReportActionButtons
+    sources_required: true
+  quality_rules:
+  - must_show_generated_at
+  - must_show_sources_or_scope
+  - must_not_claim_cron_freshness
+  - must_link_report_items_to_preview_targets

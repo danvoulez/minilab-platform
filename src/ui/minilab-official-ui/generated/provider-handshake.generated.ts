@@ -1,0 +1,77 @@
+/* AUTO-GENERATED from minilab UI manifests. Do not edit manually. */
+
+export const GENERATED_PROVIDER_HANDSHAKE = {
+  "schema": "minilab.platform.provider_handshake.v1",
+  "document_type": "provider_handshake",
+  "endpoint_ref": "platform.capabilities.get",
+  "purpose": "A backend advertises which Minilab platform capabilities and Registry entity kinds it satisfies without redefining the product contract.",
+  "response": {
+    "required": [
+      "platform_contract",
+      "provider",
+      "capabilities"
+    ],
+    "platform_contract": {
+      "example": "minilab.platform.contract.v1"
+    },
+    "provider": {
+      "required": [
+        "id",
+        "name",
+        "version"
+      ],
+      "optional": [
+        "build",
+        "environment",
+        "documentation_url"
+      ]
+    },
+    "capabilities": {
+      "map_key": "capability_id",
+      "record": {
+        "required": [
+          "status"
+        ],
+        "status": [
+          "available",
+          "degraded",
+          "unavailable",
+          "unknown"
+        ],
+        "optional": [
+          "detail",
+          "endpoint",
+          "read_only",
+          "latency_class"
+        ]
+      }
+    },
+    "registry_types": {
+      "map_key": "registry_type_id",
+      "record": {
+        "required": [
+          "status"
+        ],
+        "status": [
+          "available",
+          "degraded",
+          "unavailable",
+          "unknown"
+        ],
+        "optional": [
+          "detail",
+          "provider_schema_version"
+        ]
+      }
+    }
+  },
+  "semantics": {
+    "absent_capability": "unknown",
+    "absent_registry_type": "unknown",
+    "status_unavailable": "UI remains visible and explains provider limitation",
+    "status_degraded": "UI remains visible and marks dependent controls degraded",
+    "provider_schema_version": "informational adapter metadata only",
+    "platform_schema_version": "remains authoritative for UI behavior",
+    "provider_must_not_return_secret_material_in_capability_document": true
+  }
+} as const;

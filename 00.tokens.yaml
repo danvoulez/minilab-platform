@@ -1,0 +1,53 @@
+schema: minilab.ui.tokens.v1
+document_type: tokens
+product: minilab.work official UI
+theme:
+  name: dark-operational
+  colors:
+    page_bg: '#101010'
+    panel_bg: '#171717'
+    card_bg: rgba(255,255,255,0.05)
+    card_bg_alt: rgba(0,0,0,0.20)
+    border: rgba(255,255,255,0.10)
+    text_primary: neutral-100
+    text_secondary: neutral-400
+    text_muted: neutral-500
+    accent: blue-400
+    active_border: blue-500/80
+  typography:
+    sans: Geist Sans
+    mono: Geist Mono
+    page_title:
+      size: 2xl
+      weight: semibold
+      color: neutral-100
+    lede:
+      size: sm
+      color: neutral-400
+      max_width: prose
+  icons:
+    style: monoline
+    size: 16-18px
+    role: recognition_not_explanation
+  density:
+    sidebar_item_height: 36
+    row_height: 40
+    card_radius: lg
+    section_gap: space-y-4
+    page_padding: p-6
+layout_rules:
+- sidebar_orients
+- middle_operates
+- preview_details
+- every_page_has_title_and_lede
+- expanded_navigation_uses_icon_and_text
+- collapsed_navigation_uses_icon_and_tooltip
+visual_do_not:
+- dashboard_generic
+- crm_clone
+- ide_clone
+- chatbot_shell
+- glassmorphism_showcase
+- excessive_kpi_cards
+- icon_only_expanded_sidebar
+- raw_engine_jargon_on_main_surface

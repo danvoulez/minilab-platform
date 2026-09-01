@@ -1,0 +1,376 @@
+schema: minilab.ui.data_entities.v1
+document_type: data_entities
+entities:
+  logline_records:
+    primary_key: id
+    fields:
+    - id
+    - who
+    - did
+    - this
+    - when
+    - confirmed_by
+    - if_ok
+    - if_doubt
+    - if_not
+    - status
+    - payload_bytes
+    - created_at
+    - online_status
+  registry_entities:
+    authority: provider.registry_entities
+    persistence: external_authority
+    primary_key: entity_id
+    fields:
+    - entity_id
+    - tenant_id
+    - entity_kind
+    - current_state_cid
+    - created_at
+    - updated_at
+    provider_owned_fields:
+    - tenant_id
+  registry_versions:
+    authority: provider.registry_versions
+    persistence: external_authority
+    primary_key: state_cid
+    fields:
+    - tenant_id
+    - state_cid
+    - entity_id
+    - previous_state_cid
+    - schema_version
+    - canonical_payload
+    - content_cid
+    - created_at
+    provider_owned_fields:
+    - tenant_id
+  registry_admissions:
+    authority: provider.registry_admissions
+    persistence: external_authority
+    primary_key: admission_id
+    fields:
+    - admission_id
+    - tenant_id
+    - entity_id
+    - state_cid
+    - authority_ref
+    - signature
+    - idempotency_key
+    - admitted_at
+    - recorded_at
+    provider_owned_fields:
+    - tenant_id
+  registry_contracts:
+    authority: 16.registry-type-schemas.yaml
+    persistence: compiled_contract
+    primary_key: schema_version
+    fields:
+    - entity_kind
+    - schema_version
+    - label
+    - description
+  entity_links:
+    primary_key: id
+    fields:
+    - id
+    - from_entity_id
+    - relation
+    - to_entity_id
+    - status
+  ghosts:
+    primary_key: id
+    fields:
+    - id
+    - logline_record_id
+    - reason
+    - summary
+    - missing
+    - status
+    - created_at
+  receipts:
+    primary_key: id
+    fields:
+    - id
+    - logline_record_id
+    - scope
+    - evidence_summary
+    - evidence_payload
+    - closed_at
+    - status
+  workorders:
+    primary_key: id
+    fields:
+    - id
+    - title
+    - intent
+    - scope
+    - status
+    - created_at
+  gate_decisions:
+    primary_key: id
+    fields:
+    - id
+    - decision
+    - reason
+    - policy_id
+    - created_at
+  policies:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - scope
+    - status
+    - rule_payload
+  sensors:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - kind
+    - status
+    - entity_id
+  sensor_readings:
+    primary_key: id
+    fields:
+    - id
+    - sensor_id
+    - value
+    - observed_at
+  machines:
+    primary_key: id
+    seed:
+    - id: lab-8gb
+      label: LAB 8GB
+    - id: lab-512
+      label: LAB 512
+    - id: lab-256
+      label: LAB 256
+    fields:
+    - id
+    - label
+    - role
+    - status
+  machine_heartbeats:
+    primary_key: id
+    fields:
+    - id
+    - machine_id
+    - observed_at
+    - status
+  runtimes:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - machine_id
+    - version
+    - status
+  llms:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - kind
+    - role
+    - status
+  agents:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - llm_id
+    - role
+    - status
+  finance_records:
+    primary_key: id
+    fields:
+    - id
+    - kind
+    - amount
+    - currency
+    - vendor_id
+    - due_date
+    - status
+  legal_records:
+    primary_key: id
+    fields:
+    - id
+    - kind
+    - title
+    - status
+    - document_id
+  documents:
+    primary_key: id
+    fields:
+    - id
+    - title
+    - kind
+    - status
+    - content_ref
+  supabase_sync_events:
+    primary_key: id
+    fields:
+    - id
+    - source
+    - target
+    - status
+    - started_at
+    - finished_at
+    - failed_rows
+  unregistered_signals:
+    primary_key: id
+    fields:
+    - id
+    - source
+    - kind
+    - observed_at
+    - payload
+    - status
+  jobs:
+    primary_key: id
+    fields:
+    - id
+    - machine_id
+    - title
+    - status
+    - started_at
+    - ended_at
+  access_events:
+    primary_key: id
+    fields:
+    - id
+    - machine_id
+    - actor
+    - method
+    - observed_at
+    - status
+  security_events:
+    primary_key: id
+    fields:
+    - id
+    - machine_id
+    - summary
+    - severity
+    - observed_at
+  maintenance_records:
+    primary_key: id
+    fields:
+    - id
+    - entity_id
+    - summary
+    - status
+    - created_at
+  evidence:
+    primary_key: id
+    fields:
+    - id
+    - kind
+    - source
+    - payload_ref
+    - summary
+    - created_at
+  settings:
+    primary_key: id
+    fields:
+    - id
+    - scope
+    - key
+    - value_ref
+    - status
+  connections:
+    primary_key: id
+    fields:
+    - id
+    - provider
+    - status
+    - scope
+    - last_sync
+  secrets:
+    primary_key: id
+    fields:
+    - id
+    - logical_name
+    - provider
+    - scope
+    - presence
+    - last_rotation
+  vendors:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - status
+    - contact_ref
+  costs:
+    primary_key: id
+    fields:
+    - id
+    - entity_id
+    - amount
+    - currency
+    - period
+    - source
+  analytics:
+    primary_key: id
+    fields:
+    - id
+    - metric
+    - value
+    - period
+    - source
+  benchmarks:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - status
+    - method_ref
+  datasets:
+    primary_key: id
+    fields:
+    - id
+    - name
+    - status
+    - source
+  benchmark_runs:
+    primary_key: id
+    fields:
+    - id
+    - benchmark_id
+    - status
+    - result
+    - created_at
+  knowledge_items:
+    primary_key: id
+    fields:
+    - id
+    - title
+    - kind
+    - status
+    - content_ref
+  human_checkins:
+    primary_key: id
+    fields:
+    - id
+    - kind
+    - status
+    - observed_at
+    - summary
+  research_items:
+    primary_key: id
+    fields:
+    - id
+    - kind
+    - title
+    - status
+    - created_at
+  reviews:
+    primary_key: id
+    fields:
+    - id
+    - kind
+    - target_id
+    - status
+    - created_at

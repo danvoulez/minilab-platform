@@ -1,0 +1,54 @@
+schema: minilab.ui.runtime_bindings.v1
+document_type: runtime_bindings
+product: minilab.work official UI
+# This is the only bridge from declarative area IDs to React implementations.
+# Navigation decides what is visible; page-manifest defines the contract; this
+# file says how that contract is rendered. Nothing else should hand-maintain a
+# second route table.
+routes:
+  lab-today: {kind: component, module: lab-today, export: LabTodayPage}
+  lab-construction: {kind: component, module: lab-construction, export: LabConstructionPage}
+  lab-routine: {kind: component, module: lab-routine, export: LabRoutinePage}
+  lab-calendar: {kind: component, module: lab-calendar, export: LabCalendarPage}
+  expedicoes:
+    kind: iframe
+    path: /expedicoes
+    frame_class_name: min-h-[calc(100vh-120px)]
+  research-profile: {kind: component, module: research-plan, export: ResearchProfilePage}
+  milestones: {kind: component, module: research-plan, export: MilestonesPage}
+  short-term: {kind: component, module: research-plan, export: ShortTermPage}
+
+  # Legacy top-level surfaces are intentionally hidden from the final rail,
+  # but remain routable contracts while their feature code is reused.
+  workorders: {kind: component, module: workorders, export: WorkordersPage}
+  receipts: {kind: component, module: receipts, export: ReceiptsPage}
+  ghosts: {kind: component, module: ghosts, export: GhostsPage}
+
+  registry: {kind: component, module: registry, export: RegistryPage}
+  sensors: {kind: component, module: sensors, export: SensorsPage}
+  knowledge: {kind: component, module: knowledge, export: KnowledgePage}
+  docs: {kind: component, module: docs, export: DocsPage}
+  human: {kind: component, module: human, export: HumanPage}
+  santo-andre: {kind: component, module: santo-andre, export: SantoAndrePage}
+  machines: {kind: component, module: machines, export: MachinesPage}
+  runtimes: {kind: component, module: runtimes, export: RuntimesPage}
+  llms: {kind: component, module: llms, export: LLMsPage}
+  agents: {kind: component, module: agents, export: AgentsPage}
+
+  research: {kind: placeholder}
+  benchmarks: {kind: placeholder}
+  code: {kind: placeholder}
+  reviews: {kind: component, module: reviews, export: ReviewsPage}
+
+  financeiro: {kind: component, module: financeiro, export: FinanceiroPage}
+  costs: {kind: component, module: costs, export: CostsPage}
+  vendors: {kind: component, module: vendors, export: VendorsPage}
+  legal: {kind: component, module: legal, export: LegalPage}
+
+  policies: {kind: component, module: policies, export: PoliciesPage}
+  gates: {kind: component, module: gates, export: GatesPage}
+  secrets: {kind: component, module: secrets, export: SecretsPage}
+  connections: {kind: component, module: connections, export: ConnectionsPage}
+  schedules: {kind: component, module: schedules, export: SchedulesPage}
+  analytics: {kind: placeholder}
+  settings: {kind: placeholder}

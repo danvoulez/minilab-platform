@@ -1,0 +1,110 @@
+schema: minilab.ui.showcase.v1
+document_type: showcase_manifest
+product: minilab.work official UI
+purpose: Render all components with canonical demo states for screenshot and visual audit.
+route: /showcase
+data_source: 11.demo-store.yaml
+sections:
+- id: shell
+  label: Shell and navigation
+  components:
+  - RailContext
+  - LeftRail
+  - LeftRailItem
+  - ResizableLayout
+  states:
+  - expanded
+  - collapsed
+  - active_area
+  - overflow_navigation
+- id: page
+  label: Page structure
+  components:
+  - PageHeader
+  - PageFrame
+  - SectionCard
+  - EmptyState
+  - LoadingState
+  - ErrorState
+  states:
+  - default
+  - empty
+  - loading
+  - error
+- id: registry
+  label: Registry
+  components:
+  - LocalOperatorComposer
+  - RegistryTypeTable
+  - EntityList
+  - AIProposalCard
+  - EntityPreview
+  states:
+  - type_table
+  - entity_list
+  - with_missing_fields
+  - selected
+- id: lab
+  label: LAB report
+  components:
+  - LabGreeting
+  - RealtimeLabReport
+  - MinilabMarkdown
+  - ReportActionButtons
+  states:
+  - fresh
+  - with_tables
+  - with_urgent_callouts
+- id: machines
+  label: Machines observability
+  components:
+  - MachineCard
+  - ConnectivityPanel
+  - AccessHistory
+  - JobActivityList
+  - RuntimeSummary
+  states:
+  - online
+  - degraded
+  - offline
+  - selected
+- id: sensors
+  label: Sensors
+  components:
+  - SensorAliveGrid
+  - SensorIntelligencePanel
+  - SensorDataTable
+  - SupabaseSyncPanel
+  states:
+  - all_alive
+  - some_silent
+  - unregistered_signal
+  - syncing
+- id: evidence
+  label: Ghosts and receipts
+  components:
+  - GhostCard
+  - ReceiptCard
+  - GateDecisionCard
+  - EvidenceBlock
+  - AuthorityBlock
+  states:
+  - missing_proof
+  - closed
+  - needs_approval
+  - with_evidence
+- id: preview
+  label: Preview
+  components:
+  - InspectorPreview
+  - EntityPreview
+  - GhostPreview
+  - ReceiptPreview
+  - MachinePreview
+  - SensorPreview
+  - JsonPreview
+  states:
+  - open
+  - loading
+  - technical_detail
+  - with_actions

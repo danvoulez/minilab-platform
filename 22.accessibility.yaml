@@ -1,0 +1,12 @@
+schema: minilab.ui.accessibility.v1
+document_type: accessibility
+requirements:
+- visible_focus
+- keyboard_navigation
+- aria_labels_for_icon_buttons
+- contrast_safe_text
+- click_targets_min_36px
+- escape_closes_preview
+- collapsed_sidebar_has_tooltips
+- no_color_only_status
+- screen_reader_labels_for_status_pills

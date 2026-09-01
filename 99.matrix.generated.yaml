@@ -1,0 +1,1053 @@
+schema: minilab.ui.matrix.v1
+document_type: generated_matrix
+generated_from:
+  - 00.tokens.yaml
+  - 01.navigation.yaml
+  - 02.component-catalog.yaml
+  - 03.page-manifest.yaml
+  - 04.preview-manifest.yaml
+  - 05.data-entities.yaml
+  - 06.interaction-flows.yaml
+  - 07.quality-rules.yaml
+  - 08.compose-ui-matrix.rules.yaml
+  - 32.runtime-bindings.yaml
+  - 33.platform-contract.yaml
+  - 34.provider-handshake.yaml
+matrix:
+  - page: lab-today
+    nav_group: core
+    title: Lab Today
+    lede: 'O estado operacional de hoje: agendas Dan/Lab, colisões, automações, saúde da pesquisa e o Observatório ao vivo.'
+    layout: operational_summary_with_live_observatory
+    components:
+      - PageHeader
+      - MetricCard
+      - ResearchHealthPanel
+      - SourceStatusPill
+      - EveFrame
+      - InspectorPreview
+    data: []
+    sources:
+      - lab.calendar.today
+      - lab.calendar.routine
+      - lab.research.current
+      - lab.health.current
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: lab-calendar
+    nav_group: core
+    title: Lab Calendar
+    lede: >-
+      O calendário como ele é: compromissos pontuais de Dan e do LAB, colisões visíveis e nenhuma inferência de
+      cumprimento.
+    layout: two_calendar_day_timeline
+    components:
+      - PageHeader
+      - ResearchHealthPanel
+      - SourceStatusPill
+      - InspectorPreview
+    data: []
+    sources:
+      - lab.calendar.today
+      - lab.health.current
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: lab-construction
+    nav_group: core
+    title: Lab Construction
+    lede: Onde o código está em relação ao plano, sem confundir intenção, observação e evidência.
+    layout: repository_facts_against_declared_plan
+    components:
+      - PageHeader
+      - MetricCard
+      - SourceStatusPill
+      - InspectorPreview
+    data: []
+    sources:
+      - lab.construction.current
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: lab-routine
+    nav_group: core
+    title: Lab Routine
+    lede: Os eventos recorrentes do calendário LAB, agrupados por frequência, com a saúde da pesquisa ao lado.
+    layout: recurring_automation_frequency_groups
+    components:
+      - PageHeader
+      - ResearchHealthPanel
+      - SourceStatusPill
+      - InspectorPreview
+    data: []
+    sources:
+      - lab.calendar.routine
+      - lab.health.current
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: workorders
+    nav_group: hidden
+    title: Workorders
+    lede: Trabalho estruturado antes da execução.
+    layout: list_with_preview
+    components:
+      - PageHeader
+      - WorkorderList
+      - StatusPills
+      - ScopeFilters
+      - NewWorkorderComposer
+      - ExecutionReadiness
+      - InspectorPreview
+    data:
+      - workorders
+      - registry_entities
+      - ghosts
+      - receipts
+      - gate_decisions
+    sources: []
+    preview:
+      - workorder
+      - entity
+      - receipt
+      - ghost
+      - gate
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: receipts
+    nav_group: hidden
+    title: Receipts
+    lede: Evidências fechadas do que aconteceu no LAB.
+    layout: proof_ledger_with_preview
+    components:
+      - PageHeader
+      - ReceiptLedgerSummary
+      - ReceiptList
+      - ReceiptCard
+      - ReceiptDigest
+      - EvidenceBlock
+      - ReceiptFilters
+      - ReceiptTimeline
+      - ReceiptByEntity
+      - ReceiptByMachine
+      - ReceiptByWorkorder
+      - InspectorPreview
+    data:
+      - receipts
+      - registry_entities
+      - workorders
+      - ghosts
+      - evidence
+      - machines
+    sources: []
+    preview:
+      - receipt
+      - entity
+      - workorder
+      - ghost
+      - machine
+    flows:
+      - preview_selection
+      - receipt_export
+      - open_evidence
+    rules:
+      - page_header_required
+      - preview_for_details
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+      - receipt_not_activity_log
+  - page: ghosts
+    nav_group: hidden
+    title: Ghosts
+    lede: Registros incompletos, ausências e dúvidas que ainda importam.
+    layout: triage_with_preview
+    components:
+      - PageHeader
+      - GhostTriageSummary
+      - GhostReasonTabs
+      - GhostList
+      - GhostCard
+      - MissingFields
+      - MissingEvidenceMatrix
+      - ResolvableGhosts
+      - GhostAgeBuckets
+      - GhostDomainBreakdown
+      - InspectorPreview
+    data:
+      - ghosts
+      - registry_entities
+      - workorders
+      - receipts
+      - sensors
+      - machines
+    sources: []
+    preview:
+      - ghost
+      - entity
+      - workorder
+      - receipt
+      - sensor
+      - machine
+    flows:
+      - preview_selection
+      - ghost_refine
+      - ghost_resolve_with_receipt
+    rules:
+      - page_header_required
+      - preview_for_details
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+      - ghosts_resolve_to_receipts
+  - page: registry
+    nav_group: registry_and_knowledge
+    title: Registry
+    lede: >-
+      Proponha, revise e admita entidades segundo o contrato Minilab; o provider satisfaz a interface sem redefinir o
+      produto.
+    layout: proposal_platform_contract_catalog_with_provider_preview
+    components:
+      - PageHeader
+      - LocalOperatorComposer
+      - RegistryTypeTable
+      - SearchInput
+      - AIProposalCard
+      - RegisterActions
+      - MissingFields
+      - InspectorPreview
+    data:
+      - registry_contracts
+      - registry_entities
+      - registry_versions
+      - registry_admissions
+    sources: []
+    preview:
+      - registry_record
+      - registry_admission
+    flows:
+      - register
+      - registry_mutation
+      - preview_selection
+    rules:
+      - no_direct_registry_edit
+      - no_local_validity
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+      - registry_proposer_not_authority
+  - page: sensors
+    nav_group: registry_and_knowledge
+    title: Sensors
+    lede: 'Sensores proprietários do LAB: configuração, observação e conclusões.'
+    layout: instrument_intelligence_with_preview
+    components:
+      - PageHeader
+      - SensorIntelligencePanel
+      - SensorAliveGrid
+      - SensorList
+      - SensorReadingCards
+      - SensorDataTable
+      - SensorImportPanel
+      - SensorSyncStatus
+      - SupabaseSyncPanel
+      - SensorConclusionPanel
+      - SensorToRegistryAction
+      - AlertRules
+      - InspectorPreview
+    data:
+      - sensors
+      - sensor_readings
+      - registry_entities
+      - ghosts
+      - receipts
+      - supabase_sync_events
+      - unregistered_signals
+    sources: []
+    preview:
+      - sensor
+      - entity
+      - ghost
+      - receipt
+    flows:
+      - preview_selection
+      - sensor_import
+      - sensor_sync
+      - sensor_to_registry
+      - conclusion_to_record
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+      - sensor_liveness_explicit
+      - sensor_registry_bridge
+  - page: knowledge
+    nav_group: registry_and_knowledge
+    title: Knowledge
+    lede: Contexto estruturado que o LAB usa para interpretar e agir.
+    layout: search_cards_with_preview
+    components:
+      - PageHeader
+      - KnowledgeSearch
+      - KnowledgeCards
+      - PlaybookList
+      - ContextPacks
+      - PinnedKnowledge
+      - InspectorPreview
+    data:
+      - knowledge_items
+      - documents
+      - registry_entities
+    sources: []
+    preview:
+      - document
+      - entity
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: docs
+    nav_group: registry_and_knowledge
+    title: Docs
+    lede: Documentos oficiais, runbooks e referências do LAB.
+    layout: grid_with_preview
+    components:
+      - PageHeader
+      - DocSearch
+      - DocGrid
+      - PinnedDocs
+      - MarkdownPreview
+      - DocStatusBadge
+      - InspectorPreview
+    data:
+      - documents
+      - registry_entities
+    sources: []
+    preview:
+      - document
+      - entity
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: human
+    nav_group: world
+    title: Human
+    lede: 'Cuidado operacional do humano: energia, saúde, calma e presença.'
+    layout: care_with_preview
+    components:
+      - PageHeader
+      - CareChecklist
+      - HumanCheckIn
+      - GentleAlerts
+      - SupplyNeeds
+      - RoutineQuality
+      - InspectorPreview
+    data:
+      - human_checkins
+      - schedules
+      - ghosts
+      - receipts
+    sources: []
+    preview:
+      - ghost
+      - receipt
+      - workorder
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: santo-andre
+    nav_group: world
+    title: Laboratório Santo Andre
+    lede: 'Espaço físico do LAB: assets, manutenção, limpeza, suprimentos e organização.'
+    layout: physical_ops_with_preview
+    components:
+      - PageHeader
+      - PhysicalAssetList
+      - MaintenanceRows
+      - CleaningSchedule
+      - SupplyList
+      - SpaceObservationFeed
+      - EnforcementPanel
+      - InspectorPreview
+    data:
+      - registry_entities
+      - workorders
+      - schedules
+      - ghosts
+      - receipts
+    sources: []
+    preview:
+      - entity
+      - workorder
+      - ghost
+      - receipt
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: machines
+    nav_group: world
+    title: Machines
+    lede: 'Os três Mac minis do LAB: presença, saúde, papéis e capacidade.'
+    layout: observability_fleet_with_preview
+    components:
+      - PageHeader
+      - MetricCard
+      - MachineCards
+      - MachineCard
+      - HeartbeatStatus
+      - ConnectivityPanel
+      - AccessHistory
+      - JobActivityList
+      - MaintenanceRows
+      - SecurityEvents
+      - RuntimeSummary
+      - MachineReceipts
+      - ProtectedActions
+      - InspectorPreview
+    data:
+      - machines
+      - machine_heartbeats
+      - runtimes
+      - receipts
+      - ghosts
+      - jobs
+      - access_events
+      - security_events
+      - maintenance_records
+    sources: []
+    preview:
+      - machine
+      - runtime
+      - receipt
+      - ghost
+      - gate
+    flows: []
+    rules:
+      - page_header_required
+      - preview_for_details
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+      - machine_observability_depth
+  - page: runtimes
+    nav_group: world
+    title: Runtimes
+    lede: Software oficial instalado, configurado e observado nos LABs.
+    layout: settings_rows_with_preview
+    components:
+      - PageHeader
+      - RuntimeRows
+      - VersionBadges
+      - InstallStatus
+      - ConfigGroups
+      - RuntimeHealth
+      - InspectorPreview
+    data:
+      - runtimes
+      - machines
+      - receipts
+      - ghosts
+    sources: []
+    preview:
+      - runtime
+      - machine
+      - receipt
+      - ghost
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: llms
+    nav_group: world
+    title: LLMs
+    lede: Tradutores, minis, agentes, chatbots, transistors e operators.
+    layout: cards_matrix_with_preview
+    components:
+      - PageHeader
+      - LLMEntityCards
+      - CapabilityMatrix
+      - UsageRows
+      - CostBadges
+      - BenchmarkStatus
+      - RoleFilters
+      - InspectorPreview
+    data:
+      - llms
+      - agents
+      - benchmarks
+      - costs
+      - receipts
+    sources: []
+    preview:
+      - llm
+      - agent
+      - benchmark
+      - cost
+      - receipt
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: agents
+    nav_group: world
+    title: Agents
+    lede: 'Agentes operacionais do LAB: presença, papéis, workflows e limites.'
+    layout: list_with_preview
+    components:
+      - PageHeader
+      - AgentList
+      - AttendanceStatus
+      - AssignedWorkflows
+      - PermissionSummary
+      - AgentRunHistory
+      - InspectorPreview
+    data:
+      - agents
+      - llms
+      - workorders
+      - receipts
+      - ghosts
+    sources: []
+    preview:
+      - agent
+      - llm
+      - workorder
+      - receipt
+      - ghost
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: research
+    nav_group: workbenches
+    title: Research
+    lede: Arena de pesquisa digital do LAB.
+    layout: workbench
+    components:
+      - PageHeader
+      - ResearchWorkbench
+      - HypothesisList
+      - ExperimentCards
+      - PaperQueue
+      - ResultTimeline
+      - ResearchComposer
+      - InspectorPreview
+    data:
+      - research_items
+      - benchmarks
+      - documents
+      - receipts
+      - ghosts
+    sources: []
+    preview:
+      - document
+      - benchmark
+      - receipt
+      - ghost
+    flows: []
+    rules:
+      - page_header_required
+      - no_execution_from_natural_language
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: benchmarks
+    nav_group: workbenches
+    title: Benchmarks
+    lede: Produção, execução e validação de benchmarks comparáveis internacionalmente.
+    layout: analytics_workbench_with_preview
+    components:
+      - PageHeader
+      - BenchmarkSuiteList
+      - DatasetRows
+      - RunHistory
+      - MetricCards
+      - LeaderboardDraft
+      - ReportBuilder
+      - ReproducibilityChecklist
+      - InspectorPreview
+    data:
+      - benchmarks
+      - datasets
+      - benchmark_runs
+      - receipts
+      - ghosts
+    sources: []
+    preview:
+      - benchmark
+      - receipt
+      - ghost
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: code
+    nav_group: workbenches
+    title: Code
+    lede: Engenharia de software com LLMs locais, premium calls escassas e LogLine.
+    layout: code_workbench
+    components:
+      - PageHeader
+      - CodeComposer
+      - FileExplorer
+      - DiffViewer
+      - PlanPanel
+      - LogPanel
+      - TestResults
+      - PremiumCallMeter
+      - ReceiptPreview
+      - InspectorPreview
+    data:
+      - workorders
+      - receipts
+      - ghosts
+      - llms
+    sources: []
+    preview:
+      - code
+      - workorder
+      - receipt
+      - ghost
+      - llm
+    flows: []
+    rules:
+      - page_header_required
+      - no_execution_from_natural_language
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+      - receipt_not_activity_log
+      - ghosts_resolve_to_receipts
+  - page: reviews
+    nav_group: workbenches
+    title: Reviews
+    lede: Revisões de mudanças, workorders e decisões antes de fechamento.
+    layout: review_workbench
+    components:
+      - PageHeader
+      - ReviewQueue
+      - DiffReview
+      - GateDecisionPanel
+      - CommentThread
+      - ReviewChecklist
+      - InspectorPreview
+    data:
+      - reviews
+      - gate_decisions
+      - workorders
+      - documents
+      - receipts
+    sources: []
+    preview:
+      - gate
+      - workorder
+      - document
+      - receipt
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: financeiro
+    nav_group: institutional
+    title: Financeiro
+    lede: Contas, orçamento, custos e gastos do LAB.
+    layout: finance_dashboard_with_preview
+    components:
+      - PageHeader
+      - FinanceOverviewCards
+      - DueBills
+      - BudgetProgress
+      - SpendingTimeline
+      - CategoryBreakdown
+      - InspectorPreview
+    data:
+      - finance_records
+      - vendors
+      - costs
+      - documents
+    sources: []
+    preview:
+      - cost
+      - vendor
+      - document
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: costs
+    nav_group: institutional
+    title: Costs
+    lede: Custos atribuídos por entidade, projeto, máquina, LLM e workflow.
+    layout: analytics_table_with_preview
+    components:
+      - PageHeader
+      - CostTable
+      - CostAllocationCards
+      - CostByEntity
+      - TrendCharts
+      - CostAnomalyList
+      - InspectorPreview
+    data:
+      - costs
+      - registry_entities
+      - vendors
+      - receipts
+    sources: []
+    preview:
+      - cost
+      - entity
+      - vendor
+      - receipt
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: vendors
+    nav_group: institutional
+    title: Vendors
+    lede: Fornecedores, assinaturas e relações comerciais do LAB.
+    layout: list_with_preview
+    components:
+      - PageHeader
+      - VendorList
+      - SubscriptionRows
+      - ContractLinks
+      - PaymentStatus
+      - ContactInfo
+      - InspectorPreview
+    data:
+      - vendors
+      - finance_records
+      - legal_records
+      - documents
+    sources: []
+    preview:
+      - vendor
+      - cost
+      - legal
+      - document
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: legal
+    nav_group: institutional
+    title: Legal
+    lede: Contratos, obrigações, endereços oficiais, riscos e correspondência.
+    layout: legal_rows_with_preview
+    components:
+      - PageHeader
+      - LegalObligationRows
+      - ContractCards
+      - RiskBadges
+      - OfficialAddressCard
+      - CorrespondenceLog
+      - DocumentPreview
+      - InspectorPreview
+    data:
+      - legal_records
+      - documents
+      - vendors
+      - registry_entities
+    sources: []
+    preview:
+      - legal
+      - document
+      - vendor
+      - entity
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: policies
+    nav_group: admin
+    title: Policies
+    lede: Regras operáveis que governam registros, ações e decisões.
+    layout: settings_rows_with_preview
+    components:
+      - PageHeader
+      - PolicyList
+      - PolicyScopeBadges
+      - PolicyStatus
+      - PolicyEditorPreview
+      - LinkedGates
+      - InspectorPreview
+    data:
+      - policies
+      - gate_decisions
+    sources: []
+    preview:
+      - policy
+      - gate
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: gates
+    nav_group: admin
+    title: Gates
+    lede: Decisões de admissão antes de execução, mutação ou fechamento.
+    layout: decision_queue_with_preview
+    components:
+      - PageHeader
+      - GateDecisionQueue
+      - DecisionCards
+      - ApprovalRequests
+      - GateHistory
+      - ReasonPanel
+      - InspectorPreview
+    data:
+      - gate_decisions
+      - policies
+      - receipts
+      - ghosts
+    sources: []
+    preview:
+      - gate
+      - policy
+      - receipt
+      - ghost
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: secrets
+    nav_group: admin
+    title: Secrets
+    lede: Referências a segredos, configs e credenciais sem expor valores.
+    layout: secure_rows_with_preview
+    components:
+      - PageHeader
+      - SecretReferenceRows
+      - ProviderStatus
+      - MissingSecretWarnings
+      - AccessPolicyLinks
+      - InspectorPreview
+    data:
+      - secrets
+      - policies
+      - connections
+    sources: []
+    preview:
+      - json
+      - policy
+    flows: []
+    rules:
+      - no_secret_values
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: connections
+    nav_group: admin
+    title: Connections
+    lede: Serviços externos conectados ao LAB.
+    layout: settings_groups_with_preview
+    components:
+      - PageHeader
+      - ConnectionGroups
+      - ProviderRows
+      - ConnectedBadges
+      - ConfigureActions
+      - MCPMarketplaceLikeList
+      - InspectorPreview
+    data:
+      - connections
+      - secrets
+      - policies
+    sources: []
+    preview:
+      - json
+      - policy
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: schedules
+    nav_group: admin
+    title: Schedules
+    lede: Rotinas, expedições e workflows agendados do LAB.
+    layout: calendar_with_preview
+    components:
+      - PageHeader
+      - ScheduleCalendar
+      - RecurringWorkflowRows
+      - UpcomingRuns
+      - MissedSchedules
+      - ScheduleQuality
+      - InspectorPreview
+    data:
+      - schedules
+      - workorders
+      - ghosts
+      - receipts
+    sources: []
+    preview:
+      - workorder
+      - ghost
+      - receipt
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: analytics
+    nav_group: admin
+    title: Analytics
+    lede: Métricas de qualidade, custo, uso e operação do LAB.
+    layout: analytics
+    components:
+      - PageHeader
+      - MetricCards
+      - Charts
+      - SegmentedControls
+      - ExportButton
+      - BreakdownTables
+      - InspectorPreview
+    data:
+      - analytics
+      - costs
+      - receipts
+      - ghosts
+      - workorders
+    sources: []
+    preview:
+      - json
+      - receipt
+      - ghost
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: settings
+    nav_group: admin
+    title: Settings
+    lede: Configurações gerais do minilab.work.
+    layout: settings_mode
+    components:
+      - PageHeader
+      - SettingsRail
+      - SettingsSearch
+      - SettingsGroups
+      - ToggleRows
+      - SelectRows
+      - DangerZone
+    data:
+      - settings
+      - connections
+      - secrets
+      - policies
+    sources: []
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+  - page: expedicoes
+    nav_group: core
+    title: Expedições
+    lede: A fila viva da pessoa jurídica, apresentada pela superfície oficial do 256-eve.
+    layout: embedded_live_surface
+    components:
+      - EveFrame
+    data: []
+    sources: []
+    preview: []
+    flows: []
+    rules:
+      - page_header_required
+  - page: research-profile
+    nav_group: core
+    title: Research Profile
+    lede: A fonte de longo prazo do que o LAB está pesquisando, exibida diretamente do repositório.
+    layout: research_plan_source_of_truth
+    components:
+      - PageHeader
+      - MetricCard
+      - SourceStatusPill
+      - InspectorPreview
+    data: []
+    sources:
+      - lab.research.current
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: milestones
+    nav_group: core
+    title: Milestones
+    lede: Os marcos de médio prazo da pesquisa, com identidade de conteúdo verificável.
+    layout: research_plan_source_of_truth
+    components:
+      - PageHeader
+      - MetricCard
+      - SourceStatusPill
+      - InspectorPreview
+    data: []
+    sources:
+      - lab.research.current
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail
+  - page: short-term
+    nav_group: core
+    title: Short Term
+    lede: O plano de curto prazo que deve tocar a realidade em seguida, exibido sem paráfrase.
+    layout: research_plan_source_of_truth
+    components:
+      - PageHeader
+      - MetricCard
+      - SourceStatusPill
+      - InspectorPreview
+    data: []
+    sources:
+      - lab.research.current
+    preview:
+      - json
+    flows: []
+    rules:
+      - page_header_required
+      - middle_uses_human_language
+      - preview_can_show_technical_detail

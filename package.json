@@ -1,0 +1,43 @@
+{
+  "name": "minilab-official-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run prepare:ui && vite",
+    "build": "npm run validate:ui && tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "build:manifests": "npm run compose:manifests && node scripts/build-manifests.mjs",
+    "check:matrix": "node scripts/check-matrix.mjs",
+    "generate:ui": "npm run compose:manifests && node scripts/generate-ui.mjs",
+    "check:generated": "node scripts/check-generated.mjs",
+    "check:demo-store": "node scripts/check-demo-store.mjs",
+    "check:acceptance": "node scripts/check-acceptance.mjs",
+    "validate:ui": "npm run prepare:ui && npm run check:spine && npm run check:live-contracts && npm run check:registry-contracts && npm run check:platform-contract && npm run check:matrix && npm run check:generated && npm run check:demo-store && npm run check:acceptance && npm run check:temperature",
+    "check:temperature": "node scripts/check-temperature-contract.mjs",
+    "compose:manifests": "node scripts/compose-manifests.mjs",
+    "prepare:ui": "npm run build:manifests && node scripts/generate-ui.mjs",
+    "check:spine": "node scripts/check-contract-spine.mjs",
+    "check:live-contracts": "node scripts/check-live-contracts.mjs",
+    "check:registry-contracts": "node scripts/check-registry-contracts.mjs",
+    "check:platform-contract": "node scripts/check-platform-contract.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "js-yaml": "^4.1.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10"
+  }
+}

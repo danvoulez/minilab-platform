@@ -1,0 +1,184 @@
+schema: minilab.ui.hot_components.v1
+document_type: hot_components
+product: minilab.work official UI
+
+components:
+  HotProblemCard:
+    base: true
+    structure:
+      - what_happened
+      - why_it_matters
+      - what_is_blocked
+      - required_evidence
+      - authority
+      - next_action
+      - linked_records
+
+  HotDecisionCard:
+    domains:
+      - gates
+      - reviews
+      - workorders
+      - policies
+    answers:
+      - what_decision_is_needed
+      - approve_means
+      - deny_means
+      - ghost_means
+      - authority
+      - evidence
+
+  HotBlockerCard:
+    domains:
+      - secrets
+      - connections
+      - runtimes
+      - agents
+      - machines
+    answers:
+      - what_is_blocked
+      - affected_capability
+      - dependents
+      - next_action
+
+  HotGhostResolutionCard:
+    domains:
+      - ghosts
+      - registry
+      - sensors
+      - schedules
+      - santo-andre
+    answers:
+      - what_tried_to_exist
+      - why_it_did_not_close
+      - what_is_missing
+      - who_can_resolve
+      - minimum_action
+
+  HotEvidenceNeededCard:
+    domains:
+      - financeiro
+      - legal
+      - human
+      - santo-andre
+      - schedules
+    answers:
+      - what_needs_proof
+      - missing_evidence
+      - consequence
+      - closing_action
+
+  HotFinancialUrgencyCard:
+    domains:
+      - financeiro
+      - costs
+      - vendors
+    answers:
+      - amount
+      - due_date
+      - approval_needed
+      - missing_receipt
+      - risk_if_ignored
+
+  HotLegalExposureCard:
+    domains:
+      - legal
+    answers:
+      - obligation
+      - deadline
+      - exposure
+      - required_evidence
+      - signer_or_authority
+
+  HotHumanSupportCard:
+    domains:
+      - human
+    tone:
+      - calm
+      - non_punitive
+      - support_oriented
+    forbidden_tone:
+      - blame
+      - machine_failure_language
+      - aggressive_red
+    answers:
+      - what_needs_support
+      - what_would_help
+      - gentle_next_action
+      - linked_routine
+
+  HotRuntimeImpactCard:
+    domains:
+      - runtimes
+      - connections
+      - secrets
+      - code
+    answers:
+      - broken_runtime
+      - missing_dependency
+      - affected_agent_or_workflow
+      - last_good_receipt
+      - open_ghost
+
+  HotMachineIncidentCard:
+    domains:
+      - machines
+    answers:
+      - machine
+      - heartbeat
+      - connectivity
+      - current_job
+      - protected_action
+
+  HotSensorSignalCard:
+    domains:
+      - sensors
+    answers:
+      - signal
+      - liveness
+      - registry_status
+      - conclusion
+      - next_action
+
+  # O único componente quente da construção: trabalho que existe no disco e
+  # não existe em lugar nenhum. Responde o que está solto, onde, e desde
+  # quando — não opina sobre se deveria estar.
+  RepoHealthCards:
+    domains:
+      - lab-construction
+    answers:
+      - uncommitted_work
+      - which_tree
+      - last_commit
+
+  HotScheduleDriftCard:
+    domains:
+      - schedules
+      - lab-calendar
+      - lab-routine
+    answers:
+      - expected
+      - observed
+      - missed_or_drifted
+      - receipt_or_ghost
+
+  HotWorkorderCard:
+    domains:
+      - workorders
+      - code
+      - research
+    answers:
+      - intent
+      - scope
+      - readiness
+      - gate_status
+      - required_evidence
+      - next_action
+
+rules:
+  - hot_components_are_domain_specific
+  - hot_components_must_explain_why_it_matters
+  - hot_components_must_show_next_action_when_actionable
+  - hot_components_must_not_be_generic_metric_cards
+  - hot_components_must_not_render_raw_payload
+  - hot_components_can_link_to_cold_templates_for_more_detail

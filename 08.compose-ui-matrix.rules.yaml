@@ -1,0 +1,21 @@
+schema: minilab.ui.compose_rules.v1
+document_type: compose_rules
+composition:
+  for_each_page:
+  - navigation_group
+  - title
+  - lede
+  - layout
+  - components
+  - data
+  - preview_kinds
+  - flows
+  - rules
+  validations:
+  - every_page_has_page_header
+  - every_interactive_page_has_preview
+  - every_mutating_page_has_flow
+  - every_data_dependency_exists
+  - every_component_exists_in_catalog
+  - every_preview_kind_has_component
+  - every_page_has_quality_rules

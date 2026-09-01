@@ -1,0 +1,34 @@
+/* AUTO-GENERATED from minilab UI manifests. Do not edit manually. */
+
+export const GENERATED_ROUTE_KEYBOARD = {
+  "schema": "minilab.ui.route_keyboard.v1",
+  "document_type": "route_keyboard",
+  "routing": {
+    "mode": "hash",
+    "examples": {
+      "registry": "#registry",
+      "machines": "#machines",
+      "preview_entity": "#registry/entity/lab-256"
+    }
+  },
+  "keyboard": {
+    "Escape": {
+      "action": "close_preview"
+    },
+    "Meta+K": {
+      "action": "open_command_palette"
+    },
+    "Meta+Backslash": {
+      "action": "toggle_sidebar"
+    },
+    "ArrowDown": {
+      "action": "move_selection_down_in_lists"
+    },
+    "ArrowUp": {
+      "action": "move_selection_up_in_lists"
+    },
+    "Enter": {
+      "action": "open_selected_item_preview"
+    }
+  }
+} as const;

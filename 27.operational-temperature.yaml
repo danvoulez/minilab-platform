@@ -1,0 +1,116 @@
+schema: minilab.ui.operational_temperature.v1
+document_type: operational_temperature
+product: minilab.work official UI
+
+levels:
+  hot:
+    meaning: urgent, recent, unstable, blocking, actionable
+    operator_question: What needs attention now?
+    visual_behavior:
+      - expanded
+      - above_fold
+      - action_visible
+      - human_copy
+      - domain_specific_component
+      - maximum_three_items_by_default
+    examples:
+      - gate needs approval
+      - secret missing
+      - runtime broken
+      - payment due today
+      - legal obligation expiring
+      - ghost resolvable now
+
+  warm:
+    meaning: active, monitored, relevant, in progress
+    operator_question: What should be watched or kept in context?
+    visual_behavior:
+      - compact_visible
+      - grouped
+      - opens_preview
+      - low_emphasis_actions
+      - no_raw_payload
+    examples:
+      - scheduled work running normally
+      - active workorder
+      - monitored agent
+      - upcoming appointment
+
+  cold:
+    meaning: normal, peaceful, old, statistical, auditable
+    operator_question: What can be searched, audited, or reviewed later?
+    visual_behavior:
+      - collapsed_by_default
+      - searchable
+      - table_or_chart_or_audit
+      - no_large_cards_unless_selected
+      - dense_allowed
+    examples:
+      - paid finance record
+      - healthy vendor
+      - old receipt
+      - present secret
+      - normal runtime
+      - historical correspondence
+
+  raw:
+    meaning: technical payload and source details
+    operator_question: What is the underlying payload?
+    visual_behavior:
+      - inspector_only
+      - disclosure
+      - monospace_when_needed
+      - never_primary_surface
+    examples:
+      - ids
+      - JSON
+      - source payload
+      - raw metadata
+
+promote_to_hot_when:
+  - status: missing
+  - status: stale
+  - status: broken
+  - status: blocked
+  - status: denied
+  - status: needs_approval
+  - status: missing_evidence
+  - status: ghost
+  - status: critical
+  - status: due_today
+  - status: unresolved
+  - status: offline
+  - status: degraded_with_impact
+  - risk: high
+  - risk: critical
+  - evidence: missing
+  - authority: required
+  - deadline: soon
+  - age: recent_and_unresolved
+
+demote_to_cold_when:
+  - status: ok
+  - status: paid
+  - status: closed
+  - status: healthy
+  - status: present
+  - status: connected
+  - status: completed
+  - status: official_and_current
+  - age: old
+  - evidence: already_closed
+  - risk: low
+  - impact: none
+
+metric_behavior:
+  normal: ColdStatusLine
+  watch: WarmMetricCard
+  blocked_or_risk: HotProblemCard
+
+rules:
+  - temperature_is_stateful_not_page_absolute
+  - page_default_temperature_can_be_overridden_by_item_state
+  - hot_is_not_a_color_only
+  - hot_requires_explanation_of_why_it_matters
+  - cold_may_be_dense_but_not_loud
+  - human_hot_state_uses_support_language_not_failure_language

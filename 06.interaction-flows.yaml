@@ -1,0 +1,102 @@
+schema: minilab.ui.flows.v1
+document_type: interaction_flows
+flows:
+  register:
+    trigger: + New
+    steps:
+    - focus_registry_composer
+    - natural_language_or_contract_selection
+    - build_candidate_payload
+    - show_missing_fields
+    - explicit_human_review
+    - registry_admission
+    - show_admission_receipt
+    forbidden:
+    - direct_execution
+    - local_valid_record
+    - direct_registry_edit
+    - model_decides_validity
+    - ghost_claimed_as_persisted_without_endpoint
+  preview_selection:
+    trigger: row_click
+    steps:
+    - select_target
+    - open_preview
+    - load_preview_data
+    - render_actions
+  registry_mutation:
+    trigger: propose_change
+    steps:
+    - describe_change
+    - build_candidate_payload
+    - explicit_human_review
+    - provider_contract_validation
+    - admit_new_state
+    - show_admission_receipt
+    forbidden:
+    - manual_row_edit
+    - local_only_save
+    - parallel_registry_ledger
+    - model_decides_validity
+  gate_decision:
+    trigger: action_requires_admission
+    steps:
+    - create_gate_request
+    - evaluate_policy
+    - decision
+    - preview_decision
+    - execute_only_if_allowed
+  sensor_import:
+    trigger: import_readings
+    steps:
+    - select_source
+    - parse_readings
+    - show_failed_rows
+    - create_candidates_or_ghosts
+    forbidden:
+    - claim_valid_without_online_commit
+  sensor_sync:
+    trigger: sync_supabase
+    steps:
+    - start_sync
+    - persist_readings
+    - report_failures
+    - update_sync_status
+  sensor_to_registry:
+    trigger: unregistered_signal
+    steps:
+    - open_signal
+    - ai_proposal
+    - rule_check
+    - commit_registry_or_ghost
+  conclusion_to_record:
+    trigger: sensor_conclusion
+    steps:
+    - derive_candidate
+    - review
+    - commit_online_or_ghost
+  ghost_refine:
+    trigger: refine_ghost
+    steps:
+    - open_ghost
+    - add_context
+    - ai_proposal
+    - commit_update
+  ghost_resolve_with_receipt:
+    trigger: resolve_with_receipt
+    steps:
+    - add_evidence
+    - close_receipt
+    - mark_ghost_resolved
+  receipt_export:
+    trigger: export_receipt
+    steps:
+    - open_receipt
+    - select_format
+    - export_without_overclaim
+  open_evidence:
+    trigger: open_evidence
+    steps:
+    - select_evidence
+    - open_preview
+    - render_payload_or_reference

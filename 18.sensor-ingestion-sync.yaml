@@ -1,0 +1,49 @@
+schema: minilab.ui.sensor_ingestion_sync.v1
+document_type: sensor_ingestion_sync
+sensors:
+  liveness:
+    alive_threshold_minutes: 5
+    states:
+    - alive
+    - silent
+    - degraded
+    - unknown
+    - unregistered
+    - ghost
+    surface_labels:
+      alive: Vivo
+      silent: Silencioso
+      degraded: Com tropeço
+      unknown: Desconhecido
+      unregistered: Não cadastrado
+      ghost: Faltou prova
+  ingestion:
+    sources:
+    - import
+    - supabase_sync
+    - direct_reading
+    outputs:
+    - reading
+    - unregistered_signal
+    - ghost
+    - receipt
+  sync:
+    provider: Supabase
+    states:
+    - idle
+    - syncing
+    - synced
+    - failed
+    - partial
+    must_show:
+    - last_sync
+    - failed_rows
+    - unregistered_signals
+  intelligence:
+    outputs:
+    - conclusion
+    - registry_candidate
+    - ghost
+    - receipt
+    - workorder
+    claim_policy: derived conclusions are candidates until registered/receipted

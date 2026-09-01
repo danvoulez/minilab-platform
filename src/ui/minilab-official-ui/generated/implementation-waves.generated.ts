@@ -1,0 +1,69 @@
+/* AUTO-GENERATED from minilab UI manifests. Do not edit manually. */
+
+export const GENERATED_IMPLEMENTATION_WAVES = {
+  "schema": "minilab.ui.implementation_waves.v1",
+  "document_type": "implementation_waves",
+  "waves": [
+    {
+      "id": "foundation",
+      "pages": [
+        "registry",
+        "lab-today",
+        "machines",
+        "sensors",
+        "ghosts",
+        "receipts"
+      ]
+    },
+    {
+      "id": "daily_operations",
+      "pages": [
+        "lab-calendar",
+        "lab-routine",
+        "workorders",
+        "schedules"
+      ]
+    },
+    {
+      "id": "physical_and_human",
+      "pages": [
+        "human",
+        "santo-andre",
+        "runtimes",
+        "agents"
+      ]
+    },
+    {
+      "id": "digital_workbench",
+      "pages": [
+        "llms",
+        "research",
+        "benchmarks",
+        "code",
+        "reviews"
+      ]
+    },
+    {
+      "id": "institutional",
+      "pages": [
+        "financeiro",
+        "costs",
+        "vendors",
+        "legal",
+        "docs",
+        "knowledge"
+      ]
+    },
+    {
+      "id": "governance_admin",
+      "pages": [
+        "policies",
+        "gates",
+        "secrets",
+        "connections",
+        "analytics",
+        "settings"
+      ]
+    }
+  ]
+} as const;

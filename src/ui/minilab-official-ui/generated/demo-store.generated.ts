@@ -1,0 +1,149 @@
+/* AUTO-GENERATED from minilab UI manifests. Do not edit manually. */
+
+export const GENERATED_DEMO_STORE = {
+  "schema": "minilab.ui.demo_store.v1",
+  "document_type": "demo_store",
+  "product": "minilab.work official UI",
+  "purpose": "Canonical demo data for pages, showcase, visual audit and tests.",
+  "now": "2026-05-19T09:30:00+01:00",
+  "identity": {
+    "product": "minilab.work",
+    "product_line": "LogLine Automation",
+    "current_lab": "LAB-256",
+    "operator": "Daniel",
+    "commercial_address": [
+      "Rua Misericórdia 14, Loja 5",
+      "1200-273 Lisboa",
+      "Portugal"
+    ],
+    "physical_address": [
+      "Calçada de Santo André 70, 1 Esquerdo",
+      "Lisboa",
+      "Portugal"
+    ]
+  },
+  "machines": [
+    {
+      "id": "lab-8gb",
+      "label": "LAB 8GB",
+      "role": "Supervisor",
+      "status": "online",
+      "wifi": "connected",
+      "last_boot": "2026-05-19T07:12:00+01:00",
+      "last_access": "Dan via local network",
+      "current_job": "health loop",
+      "efficiency": 0.82
+    },
+    {
+      "id": "lab-512",
+      "label": "LAB 512",
+      "role": "Inference",
+      "status": "degraded",
+      "wifi": "connected",
+      "last_boot": "2026-05-18T22:44:00+01:00",
+      "last_access": "Local operator",
+      "current_job": "idle",
+      "efficiency": 0.51
+    },
+    {
+      "id": "lab-256",
+      "label": "LAB 256",
+      "role": "Workbench",
+      "status": "online",
+      "wifi": "connected",
+      "last_boot": "2026-05-19T08:02:00+01:00",
+      "last_access": "Dan",
+      "current_job": "UI build",
+      "efficiency": 0.91
+    }
+  ],
+  "sensors": [
+    {
+      "id": "sensor-presence-main",
+      "label": "Presence main room",
+      "status": "alive",
+      "last_reading": "2026-05-19T09:28:00+01:00",
+      "registry_entity_id": "ent-sensor-presence-main"
+    },
+    {
+      "id": "sensor-lab512-heartbeat",
+      "label": "LAB 512 heartbeat sensor",
+      "status": "silent",
+      "last_reading": "2026-05-19T08:41:00+01:00",
+      "registry_entity_id": "ent-lab512-heartbeat"
+    },
+    {
+      "id": "sensor-unknown-001",
+      "label": "Unknown signal 001",
+      "status": "unregistered",
+      "last_reading": "2026-05-19T09:29:00+01:00",
+      "registry_entity_id": null
+    }
+  ],
+  "registry_entities": [
+    {
+      "id": "ent-lab-256",
+      "name": "LAB 256",
+      "entity_type": "machine",
+      "domain": "machines",
+      "role": "workbench",
+      "status": "active"
+    },
+    {
+      "id": "ent-lab-512",
+      "name": "LAB 512",
+      "entity_type": "machine",
+      "domain": "machines",
+      "role": "inference",
+      "status": "active"
+    },
+    {
+      "id": "ent-physical-lab",
+      "name": "Laboratório Santo Andre",
+      "entity_type": "space",
+      "domain": "santo-andre",
+      "role": "physical_workspace",
+      "status": "active"
+    }
+  ],
+  "ghosts": [
+    {
+      "id": "ghost-cleaning-proof",
+      "reason": "missing_proof",
+      "domain": "santo-andre",
+      "summary": "Limpeza do espaço não foi comprovada.",
+      "missing": [
+        "photo",
+        "human confirmation"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "ghost-lab512-job",
+      "reason": "missing_observation",
+      "domain": "machines",
+      "summary": "LAB 512 está vivo, mas sem job útil observado desde ontem.",
+      "missing": [
+        "job receipt"
+      ],
+      "status": "open"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "receipt-heartbeat-lab-256",
+      "scope": "machine_heartbeat",
+      "summary": "LAB 256 registrou heartbeat.",
+      "status": "closed",
+      "entity_id": "ent-lab-256"
+    },
+    {
+      "id": "receipt-ui-build",
+      "scope": "ui_build",
+      "summary": "Build da official UI completou sem erro.",
+      "status": "closed",
+      "entity_id": "ent-lab-256"
+    }
+  ],
+  "lab_report_markdown": "# Hello Daniel\n\nToday is May 19th.\n\n## What happened\n- LAB 256 is online and ran the UI build.\n- LAB 512 is alive but underused.\n- One cleaning proof is still missing.\n\n## This cannot wait\n| Item | Why | Action |\n| --- | --- | --- |\n| LAB 512 idle | inference machine is not doing useful work | inspect jobs |\n| Cleaning proof missing | physical routine did not close | add evidence |\n\n## Suggested actions\n- Inspect LAB 512 jobs.\n- Register the unknown sensor signal.\n- Resolve the cleaning ghost with evidence.\n"
+} as const;

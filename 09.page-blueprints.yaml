@@ -1,0 +1,698 @@
+schema: minilab.ui.page_blueprint_overrides.v1
+document_type: page_blueprint_overrides
+product: minilab.work official UI
+purpose: Optional slot/layout details layered onto 03.page-manifest.yaml. Page identity, components, data and previews come
+  only from the page manifest.
+global_slots:
+  header:
+    component: PageHeader
+    required: true
+  middle:
+    role: primary work surface
+  preview:
+    role: contextual detail
+    closed_by_default: true
+pages:
+  lab-today:
+    layout_intent: source_backed_operational_summary_plus_live_observatory
+    slots:
+      health:
+        component: ResearchHealthPanel
+      metrics:
+        component: MetricCard
+        count: 4
+      plan_identity:
+        components:
+        - SourceStatusPill
+        preview_kind: json
+      observatorio:
+        component: EveFrame
+        source: 256-eve:/observatorio
+  lab-calendar:
+    layout_intent: two_source_day_timeline_with_explicit_collisions
+    slots:
+      health:
+        component: ResearchHealthPanel
+      timeline:
+        columns:
+        - dan
+        - lab
+        source: lab.calendar.today
+      collisions:
+        source: lab.calendar.today.overlaps
+      preview:
+        kind: json
+  lab-routine:
+    layout_intent: recurring_calendar_events_grouped_by_rrule_frequency
+    slots:
+      health:
+        component: ResearchHealthPanel
+      summary:
+        source: lab.calendar.routine
+      frequency_groups:
+        source: lab.calendar.routine.groups
+      preview:
+        kind: json
+  workorders:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - WorkorderList
+        - StatusPills
+        - ScopeFilters
+        - NewWorkorderComposer
+        - ExecutionReadiness
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - workorder
+        - entity
+        - receipt
+        - ghost
+        - gate
+        default_behavior: open_on_interactive_record_click
+  receipts:
+    layout_intent: proof_ledger
+    slots:
+      summary:
+        component: ReceiptLedgerSummary
+      filters:
+        component: ReceiptFilters
+      middle:
+        components:
+        - ReceiptList
+        - ReceiptTimeline
+        - ReceiptByEntity
+        - ReceiptByMachine
+        - ReceiptByWorkorder
+      preview:
+        component: ReceiptPreview
+  ghosts:
+    layout_intent: honest_incompleteness_triage
+    slots:
+      summary:
+        component: GhostTriageSummary
+      filters:
+        components:
+        - GhostReasonTabs
+        - GhostDomainBreakdown
+      middle:
+        components:
+        - GhostList
+        - MissingEvidenceMatrix
+        - ResolvableGhosts
+      preview:
+        component: GhostPreview
+  registry:
+    layout_intent: proposal_first_platform_contract_catalog_with_provider_inspector
+    slots:
+      hero:
+        component: LocalOperatorComposer
+        prominence: primary
+        notes: Proposal helper only. Current build uses deterministic browser parsing; provider admission returns operational truth.
+      middle_initial:
+        component: RegistryTypeTable
+        notes: Complete platform Registry contracts generated from 16.registry-type-schemas.yaml.
+      lookup:
+        component: SearchInput
+        notes: Existing entities come from the provider registry.list capability.
+      preview:
+        default_behavior: open_after_lookup_or_admission
+        component: InspectorPreview
+  sensors:
+    layout_intent: sensor_liveness_import_sync_intelligence
+    slots:
+      hero:
+        component: SensorIntelligencePanel
+        notes: What sensors are saying right now.
+      health:
+        component: SensorAliveGrid
+      data:
+        components:
+        - SensorList
+        - SensorReadingCards
+        - SensorDataTable
+      sync:
+        components:
+        - SensorImportPanel
+        - SensorSyncStatus
+        - SupabaseSyncPanel
+      actions:
+        components:
+        - SensorToRegistryAction
+        - SensorConclusionPanel
+        - AlertRules
+      preview:
+        component: SensorPreview
+  knowledge:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - KnowledgeSearch
+        - KnowledgeCards
+        - PlaybookList
+        - ContextPacks
+        - PinnedKnowledge
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - document
+        - entity
+        default_behavior: open_on_interactive_record_click
+  docs:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - DocSearch
+        - DocGrid
+        - PinnedDocs
+        - MarkdownPreview
+        - DocStatusBadge
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - document
+        - entity
+        default_behavior: open_on_interactive_record_click
+  human:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - CareChecklist
+        - HumanCheckIn
+        - GentleAlerts
+        - SupplyNeeds
+        - RoutineQuality
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - ghost
+        - receipt
+        - workorder
+        default_behavior: open_on_interactive_record_click
+  santo-andre:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - PhysicalAssetList
+        - MaintenanceRows
+        - CleaningSchedule
+        - SupplyList
+        - SpaceObservationFeed
+        - EnforcementPanel
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - entity
+        - workorder
+        - ghost
+        - receipt
+        default_behavior: open_on_interactive_record_click
+  machines:
+    layout_intent: observability_total_for_three_mac_minis
+    slots:
+      hero:
+        component: MachineCards
+        notes: 'Three main cards: LAB 8GB, LAB 512, LAB 256.'
+      observability:
+        components:
+        - ConnectivityPanel
+        - AccessHistory
+        - JobActivityList
+        - MaintenanceRows
+        - SecurityEvents
+        - RuntimeSummary
+        - MachineReceipts
+        - GhostSummary
+      preview:
+        component: MachinePreview
+        default_behavior: open_selected_machine
+  runtimes:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - RuntimeRows
+        - VersionBadges
+        - InstallStatus
+        - ConfigGroups
+        - RuntimeHealth
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - runtime
+        - machine
+        - receipt
+        - ghost
+        default_behavior: open_on_interactive_record_click
+  llms:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - LLMEntityCards
+        - CapabilityMatrix
+        - UsageRows
+        - CostBadges
+        - BenchmarkStatus
+        - RoleFilters
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - llm
+        - agent
+        - benchmark
+        - cost
+        - receipt
+        default_behavior: open_on_interactive_record_click
+  agents:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - AgentList
+        - AttendanceStatus
+        - AssignedWorkflows
+        - PermissionSummary
+        - AgentRunHistory
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - agent
+        - llm
+        - workorder
+        - receipt
+        - ghost
+        default_behavior: open_on_interactive_record_click
+  research:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - ResearchWorkbench
+        - HypothesisList
+        - ExperimentCards
+        - PaperQueue
+        - ResultTimeline
+        - ResearchComposer
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - document
+        - benchmark
+        - receipt
+        - ghost
+        default_behavior: open_on_interactive_record_click
+  benchmarks:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - BenchmarkSuiteList
+        - DatasetRows
+        - RunHistory
+        - MetricCards
+        - LeaderboardDraft
+        - ReportBuilder
+        - ReproducibilityChecklist
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - benchmark
+        - receipt
+        - ghost
+        default_behavior: open_on_interactive_record_click
+  code:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - CodeComposer
+        - FileExplorer
+        - DiffViewer
+        - PlanPanel
+        - LogPanel
+        - TestResults
+        - PremiumCallMeter
+        - ReceiptPreview
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - code
+        - workorder
+        - receipt
+        - ghost
+        - llm
+        default_behavior: open_on_interactive_record_click
+  reviews:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - ReviewQueue
+        - DiffReview
+        - GateDecisionPanel
+        - CommentThread
+        - ReviewChecklist
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - gate
+        - workorder
+        - document
+        - receipt
+        default_behavior: open_on_interactive_record_click
+  financeiro:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - FinanceOverviewCards
+        - DueBills
+        - BudgetProgress
+        - SpendingTimeline
+        - CategoryBreakdown
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - cost
+        - vendor
+        - document
+        default_behavior: open_on_interactive_record_click
+  costs:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - CostTable
+        - CostAllocationCards
+        - CostByEntity
+        - TrendCharts
+        - CostAnomalyList
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - cost
+        - entity
+        - vendor
+        - receipt
+        default_behavior: open_on_interactive_record_click
+  vendors:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - VendorList
+        - SubscriptionRows
+        - ContractLinks
+        - PaymentStatus
+        - ContactInfo
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - vendor
+        - cost
+        - legal
+        - document
+        default_behavior: open_on_interactive_record_click
+  legal:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - LegalObligationRows
+        - ContractCards
+        - RiskBadges
+        - OfficialAddressCard
+        - CorrespondenceLog
+        - DocumentPreview
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - legal
+        - document
+        - vendor
+        - entity
+        default_behavior: open_on_interactive_record_click
+  policies:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - PolicyList
+        - PolicyScopeBadges
+        - PolicyStatus
+        - PolicyEditorPreview
+        - LinkedGates
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - policy
+        - gate
+        default_behavior: open_on_interactive_record_click
+  gates:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - GateDecisionQueue
+        - DecisionCards
+        - ApprovalRequests
+        - GateHistory
+        - ReasonPanel
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - gate
+        - policy
+        - receipt
+        - ghost
+        default_behavior: open_on_interactive_record_click
+  secrets:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - SecretReferenceRows
+        - ProviderStatus
+        - MissingSecretWarnings
+        - AccessPolicyLinks
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - json
+        - policy
+        default_behavior: open_on_interactive_record_click
+  connections:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - ConnectionGroups
+        - ProviderRows
+        - ConnectedBadges
+        - ConfigureActions
+        - MCPMarketplaceLikeList
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - json
+        - policy
+        default_behavior: open_on_interactive_record_click
+  schedules:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - ScheduleCalendar
+        - RecurringWorkflowRows
+        - UpcomingRuns
+        - MissedSchedules
+        - ScheduleQuality
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - workorder
+        - ghost
+        - receipt
+        default_behavior: open_on_interactive_record_click
+  analytics:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - MetricCards
+        - Charts
+        - SegmentedControls
+        - ExportButton
+        - BreakdownTables
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - json
+        - receipt
+        - ghost
+        default_behavior: open_on_interactive_record_click
+  settings:
+    layout_intent: manifest_declared_composition
+    slots:
+      header:
+        component: PageHeader
+        source: 03.page-manifest.yaml
+      middle:
+        components:
+        - SettingsRail
+        - SettingsSearch
+        - SettingsGroups
+        - ToggleRows
+        - SelectRows
+        - DangerZone
+        notes: Render in declared order until page receives a custom blueprint.
+      preview:
+        component: InspectorPreview
+        preview_kinds:
+        - json
+        default_behavior: open_on_interactive_record_click
+  lab-construction:
+    layout_intent: declared_plan_beside_repository_facts_without_inferred_completion
+    slots:
+      metrics:
+        component: MetricCard
+        count: 4
+      repository:
+        source: lab.construction.current.tree_and_folders
+      plan:
+        source: lab.construction.current.plan
+      gaps:
+        source: lab.construction.current.gaps
+      preview:
+        kind: json
+  research-profile:
+    layout_intent: render_exact_research_source_with_hash_identity
+    slots:
+      metrics:
+        component: MetricCard
+        count: 4
+      source_of_truth:
+        source: lab.research.current
+      preview:
+        kind: json
+  milestones:
+    layout_intent: render_exact_research_source_with_hash_identity
+    slots:
+      metrics:
+        component: MetricCard
+        count: 4
+      source_of_truth:
+        source: lab.research.current
+      preview:
+        kind: json
+  short-term:
+    layout_intent: render_exact_research_source_with_hash_identity
+    slots:
+      metrics:
+        component: MetricCard
+        count: 4
+      source_of_truth:
+        source: lab.research.current
+      preview:
+        kind: json
+  expedicoes:
+    layout_intent: embedded_mature_surface
+    slots:
+      surface:
+        component: EveFrame
+        source: 256-eve:/expedicoes

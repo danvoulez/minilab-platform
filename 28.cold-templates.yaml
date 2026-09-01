@@ -1,0 +1,126 @@
+schema: minilab.ui.cold_templates.v1
+document_type: cold_templates
+product: minilab.work official UI
+
+templates:
+  ColdTable:
+    purpose: stable rows, inventory, old records, normal state
+    default_density: compact
+    default_state: visible_or_collapsed_by_context
+    supports:
+      - search
+      - sort
+      - filter
+      - row_click_preview
+    use_for:
+      - receipts_old
+      - finance_records_paid
+      - runtimes_ok
+      - vendors_healthy
+      - policies_retired
+
+  ColdEntityTable:
+    purpose: registry-like entity lists
+    default_density: compact
+    supports:
+      - row_click_preview
+      - filter_by_type
+      - status_column
+
+  ColdStatusLine:
+    purpose: healthy or normal metrics compressed into one line
+    replaces:
+      - metric_cards_when_normal
+    use_for:
+      - fleet_ok_summary
+      - healthy_counts
+      - closed_today_summary
+
+  ColdMetricStrip:
+    purpose: small status chips for non-urgent counters
+    default_density: compact
+    max_chips_default: 5
+
+  ColdChartPanel:
+    purpose: calm trend or statistic visualization
+    default_state: collapsed
+    supports:
+      - line
+      - bar
+      - compact_axis
+    use_for:
+      - spending_timeline
+      - cost_trend
+      - ghost_counts_by_domain
+      - schedule_quality_history
+
+  ColdBreakdownPanel:
+    purpose: by domain, status, entity, machine, vendor, or workorder breakdowns
+    default_state: collapsed
+    supports:
+      - grouped_rows
+      - compact_counts
+      - click_to_filter
+
+  ColdAuditTrail:
+    purpose: historical events, receipts, gate history, rotations, correspondence
+    default_state: collapsed
+    visible_items_default: 3
+    supports:
+      - timestamp
+      - actor
+      - event
+      - linked_record
+
+  ColdTimeline:
+    purpose: non-urgent chronological history
+    default_state: collapsed
+    visible_items_default: 5
+
+  ColdSearchHeader:
+    purpose: search and filters for archive/navigation surfaces
+    default_state: visible
+    supports:
+      - query
+      - filter_chips
+      - clear
+
+  ColdConversation:
+    purpose: comments, threads, refinement notes, correspondence
+    default_state: collapsed
+    visible_items_default: 2
+    tone: quiet
+
+  ColdRelationsPanel:
+    purpose: linked receipts, ghosts, gates, entities, docs, dependencies
+    default_state: compact
+    supports:
+      - grouped_relation_types
+      - click_to_preview
+
+  ColdDocumentArchive:
+    purpose: documents that are stable or not currently actionable
+    default_state: collapsed
+    supports:
+      - document_status
+      - domain
+      - updated_at
+      - preview
+
+  ColdRawPayload:
+    purpose: JSON, ids, source payload
+    surface: inspector
+    default_state: collapsed
+    supports:
+      - JSON
+      - ids
+      - payload
+      - source_metadata
+
+rules:
+  - cold_templates_are_reusable_across_domains
+  - cold_templates_do_not_draw_attention_unless_filtered_or_selected
+  - cold_templates_may_be_dense
+  - cold_templates_must_not_look_like_urgent_cards
+  - cold_templates_must_support_preview_selection_when_row_based
+  - raw_payload_is_always_cold_raw

@@ -1,0 +1,831 @@
+schema: minilab.ui.page_temperature_map.v1
+document_type: page_temperature_map
+product: minilab.work official UI
+
+rules:
+  - page_default_temperature_is_not_absolute
+  - item_state_can_promote_to_hot_or_demote_to_cold
+  - hot_zone_max_visible_defaults_to_three_unless_page_overrides
+  - cold_zone_uses_only_declared_cold_templates
+  - raw_is_never_hot
+
+pages:
+  lab-today:
+    default_temperature: hot
+    primary_question: "O que ameaça ou destrava a operação do LAB agora?"
+    hot:
+      sources:
+        - lab_report.cannot_wait
+        - ghosts.open and ghosts.blocks_today = true
+        - machines.status in [offline, degraded]
+        - gates.status = needs_approval
+      components:
+        - HotProblemCard
+        - HotGhostResolutionCard
+        - HotDecisionCard
+      max_visible: 3
+    warm:
+      sources:
+        - recent_receipts.today
+        - today_appointments.upcoming
+      components:
+        - RealtimeLabReport
+        - TodayAppointments
+    cold:
+      templates:
+        - ColdStatusLine
+        - ColdAuditTrail
+        - ColdBreakdownPanel
+
+  lab-calendar:
+    default_temperature: hot
+    primary_question: "O que ainda pode mudar o destino do dia?"
+    hot:
+      sources:
+        - appointments.state in [now, missed, needs_daniel]
+        - schedules.status = missed
+        - gates.status = needs_approval
+      components:
+        - HotScheduleDriftCard
+        - HotDecisionCard
+        - HotGhostResolutionCard
+      max_visible: 3
+    warm:
+      sources:
+        - appointments.state = upcoming
+        - workorders.status in [running, waiting_approval]
+      components:
+        - AppointmentList
+        - PlannedVsActual
+    cold:
+      templates:
+        - ColdTimeline
+        - ColdAuditTrail
+        - ColdStatusLine
+
+  lab-construction:
+    default_temperature: mixed
+    primary_question: "Onde o código está em relação ao plano, e o que ficou solto?"
+    hot:
+      sources:
+        # Trabalho não commitado é a única coisa desta página que pede ação
+        # hoje. O resto é leitura.
+        - repos.dirty > 0
+        - plan.source_status.status != ok
+      components:
+        - RepoHealthCards
+    warm:
+      sources:
+        - repos.commits_today > 0
+      components:
+        - RecentCommits
+        - MilestoneProgress
+    cold:
+      templates:
+        - ColdStatusLine
+        - ColdBreakdownPanel
+      # Estágios declarados são referência, não urgência: um plano não fica
+      # mais verdadeiro por piscar.
+      sources:
+        - plan.stages
+
+  lab-routine:
+    default_temperature: mixed
+    primary_question: "A rotina planejada aconteceu com qualidade suficiente?"
+    hot:
+      sources:
+        - routine_entries.state in [missed, ghost]
+        - agents.attendance = absent
+        - human_checkins.status = unconfirmed
+      components:
+        - HotScheduleDriftCard
+        - HotGhostResolutionCard
+        - HotHumanSupportCard
+    warm:
+      sources:
+        - routine_entries.state in [in_progress, planned]
+      components:
+        - RoutineChecklist
+        - PlannedVsActual
+    cold:
+      templates:
+        - ColdAuditTrail
+        - ColdBreakdownPanel
+        - ColdStatusLine
+
+  workorders:
+    default_temperature: hot
+    primary_question: "Que trabalho está pronto, bloqueado ou esperando autoridade?"
+    hot:
+      sources:
+        - workorders.status in [blocked, waiting_approval]
+        - workorders.required_evidence.missing = true
+      components:
+        - HotWorkorderCard
+        - HotDecisionCard
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - workorders.status in [draft, candidate, running]
+      components:
+        - WorkorderList
+        - StatusPills
+    cold:
+      templates:
+        - ColdTable
+        - ColdRelationsPanel
+        - ColdAuditTrail
+
+  receipts:
+    default_temperature: mixed
+    primary_question: "O que foi fechado com prova e o que essa prova resolve?"
+    hot:
+      sources:
+        - receipts.resolves_ghost = true
+        - receipts.scope in [legal, financial, security]
+      components:
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - receipts.closed_today
+      components:
+        - ReceiptList
+        - ReceiptDigest
+    cold:
+      templates:
+        - ColdTable
+        - ColdAuditTrail
+        - ColdBreakdownPanel
+
+  ghosts:
+    default_temperature: hot
+    primary_question: "O que impede fechamento honesto agora?"
+    hot:
+      sources:
+        - ghosts.resolvable = true
+        - ghosts.blocks_workorder = true
+        - ghosts.reason in [missing_evidence, missing_authority]
+      components:
+        - HotGhostResolutionCard
+        - HotEvidenceNeededCard
+      max_visible: 4
+    warm:
+      sources:
+        - ghosts.status = open
+      components:
+        - GhostList
+        - GhostReasonTabs
+    cold:
+      templates:
+        - ColdBreakdownPanel
+        - ColdAuditTrail
+        - ColdStatusLine
+
+  registry:
+    default_temperature: mixed
+    primary_question: "O que existe no mundo observado e ainda não está canônico no Registry?"
+    hot:
+      sources:
+        - unregistered_signals.count > 0
+        - registry_candidates.missing_required_fields = true
+        - ghosts.reason = missing_registry_entity
+      components:
+        - HotGhostResolutionCard
+        - HotSensorSignalCard
+    warm:
+      sources:
+        - selected_registry_type
+        - registry_proposal.pending = true
+        - registry_entity_lookup.requested = true
+      components:
+        - RegistryTypeTable
+        - AIProposalCard
+        - SearchInput
+    cold:
+      templates:
+        - ColdEntityTable
+        - ColdSearchHeader
+        - ColdRelationsPanel
+
+  sensors:
+    default_temperature: mixed
+    primary_question: "Que sinais vivos, silenciosos ou não cadastrados exigem conclusão?"
+    hot:
+      sources:
+        - sensors.state in [silent, degraded, unregistered, ghost]
+        - sensor_readings.conclusion.actionable = true
+      components:
+        - HotSensorSignalCard
+        - HotGhostResolutionCard
+    warm:
+      sources:
+        - sensors.state = alive
+        - readings.recent = true
+      components:
+        - SensorIntelligencePanel
+        - SensorAliveGrid
+        - SensorReadingCards
+    cold:
+      templates:
+        - ColdTable
+        - ColdAuditTrail
+        - ColdBreakdownPanel
+
+  knowledge:
+    default_temperature: cold
+    primary_question: "Que contexto está influenciando interpretação e decisão?"
+    hot:
+      sources:
+        - knowledge_items.stale_and_used_by_agent = true
+        - knowledge_items.conflict_detected = true
+      components:
+        - HotProblemCard
+    warm:
+      sources:
+        - knowledge_items.pinned = true
+        - knowledge_items.used_by_current_page = true
+      components:
+        - PinnedKnowledge
+        - KnowledgeCards
+    cold:
+      templates:
+        - ColdSearchHeader
+        - ColdDocumentArchive
+        - ColdRelationsPanel
+
+  docs:
+    default_temperature: cold
+    primary_question: "Qual documento oficial posso seguir, citar, revisar ou auditar?"
+    hot:
+      sources:
+        - documents.status in [needs_review, expired]
+        - documents.required_for_gate = true
+      components:
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - documents.pinned = true
+        - documents.recent = true
+      components:
+        - PinnedDocs
+        - DocGrid
+    cold:
+      templates:
+        - ColdSearchHeader
+        - ColdDocumentArchive
+        - ColdBreakdownPanel
+
+  human:
+    default_temperature: mixed
+    primary_question: "O que precisa ser protegido para Dan continuar operando bem?"
+    hot:
+      sources:
+        - human_checkins.status in [unconfirmed, needs_support]
+        - supply_needs.essential_missing = true
+      components:
+        - HotHumanSupportCard
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - care_checklist.state in [pending, active]
+      components:
+        - CareChecklist
+        - GentleAlerts
+        - HumanCheckIn
+    cold:
+      templates:
+        - ColdTable
+        - ColdConversation
+        - ColdAuditTrail
+
+  santo-andre:
+    default_temperature: mixed
+    primary_question: "O espaço físico está apto para trabalhar hoje?"
+    hot:
+      sources:
+        - maintenance.status in [missed, blocked]
+        - cleaning.status = missed
+        - supply.status in [low, missing]
+        - enforcement.violation = true
+      components:
+        - HotEvidenceNeededCard
+        - HotGhostResolutionCard
+        - HotWorkorderCard
+    warm:
+      sources:
+        - physical_assets.status in [active, scheduled]
+      components:
+        - PhysicalAssetList
+        - MaintenanceRows
+        - SupplyList
+    cold:
+      templates:
+        - ColdEntityTable
+        - ColdAuditTrail
+        - ColdRelationsPanel
+
+  machines:
+    default_temperature: mixed
+    primary_question: "Que capacidade física está disponível, degradada ou bloqueando o LAB?"
+    hot:
+      sources:
+        - machines.status in [offline, degraded]
+        - machine_heartbeats.stale = true
+        - jobs.status = stuck
+      components:
+        - HotMachineIncidentCard
+        - HotRuntimeImpactCard
+    warm:
+      sources:
+        - machines.status = online
+        - jobs.status = running
+      components:
+        - MachineCards
+        - ConnectivityPanel
+        - JobActivityList
+    cold:
+      templates:
+        - ColdAuditTrail
+        - ColdRelationsPanel
+        - ColdTable
+
+  runtimes:
+    default_temperature: mixed
+    primary_question: "Que runtime está quebrando, expondo ou habilitando capacidade operacional?"
+    hot:
+      sources:
+        - runtimes.status in [broken, needs_update]
+        - missing_secret.blocks_runtime = true
+      components:
+        - HotRuntimeImpactCard
+        - HotBlockerCard
+    warm:
+      sources:
+        - runtimes.status in [running, installed]
+      components:
+        - RuntimeRows
+        - RuntimeHealth
+    cold:
+      templates:
+        - ColdTable
+        - ColdAuditTrail
+        - ColdRelationsPanel
+
+  llms:
+    default_temperature: mixed
+    primary_question: "Qual inteligência está autorizada a fazer qual trabalho, com qual custo?"
+    hot:
+      sources:
+        - premium_budget.remaining_low = true
+        - llms.policy_violation_risk = true
+        - llms.benchmark_status = failed
+      components:
+        - HotDecisionCard
+        - HotBlockerCard
+    warm:
+      sources:
+        - llms.tier in [local, premium]
+      components:
+        - LLMEntityCards
+        - RoleFilters
+    cold:
+      templates:
+        - ColdTable
+        - ColdBreakdownPanel
+        - ColdChartPanel
+
+  agents:
+    default_temperature: mixed
+    primary_question: "Quais papéis operacionais estão confiáveis, ausentes ou bloqueando workflow?"
+    hot:
+      sources:
+        - agents.status in [absent, degraded, ghosted]
+        - assigned_workflows.blocked_by_agent = true
+      components:
+        - HotBlockerCard
+        - HotGhostResolutionCard
+    warm:
+      sources:
+        - agents.status in [present, scheduled]
+      components:
+        - AgentList
+        - AssignedWorkflows
+        - PermissionSummary
+    cold:
+      templates:
+        - ColdAuditTrail
+        - ColdRelationsPanel
+        - ColdTable
+
+  research:
+    default_temperature: mixed
+    primary_question: "Que afirmação estamos investigando, com qual evidência e qual confiança?"
+    hot:
+      sources:
+        - research_items.status in [blocked, needs_evidence]
+        - claims.conflict = true
+      components:
+        - HotEvidenceNeededCard
+        - HotGhostResolutionCard
+    warm:
+      sources:
+        - hypotheses.active = true
+        - experiments.running = true
+      components:
+        - ResearchWorkbench
+        - HypothesisList
+        - ResearchComposer
+    cold:
+      templates:
+        - ColdDocumentArchive
+        - ColdAuditTrail
+        - ColdTable
+
+  benchmarks:
+    default_temperature: cold
+    primary_question: "Este resultado é comparável, reprodutível e suficiente para autorizar decisão?"
+    hot:
+      sources:
+        - benchmark_runs.status in [failed, irreproducible]
+        - reproducibility.missing = true
+      components:
+        - HotEvidenceNeededCard
+        - HotDecisionCard
+    warm:
+      sources:
+        - benchmark_runs.latest = true
+        - benchmarks.active = true
+      components:
+        - BenchmarkSuiteList
+        - ReproducibilityChecklist
+    cold:
+      templates:
+        - ColdTable
+        - ColdChartPanel
+        - ColdAuditTrail
+
+  code:
+    default_temperature: hot
+    primary_question: "Que mudança foi proposta, que prova existe e quem pode aceitar?"
+    hot:
+      sources:
+        - workorders.scope = code
+        - tests.status in [failed, missing]
+        - diff.requires_review = true
+      components:
+        - HotWorkorderCard
+        - HotDecisionCard
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - plan.status = active
+        - diff.status = draft
+      components:
+        - CodeComposer
+        - PlanPanel
+        - DiffViewer
+    cold:
+      templates:
+        - ColdAuditTrail
+        - ColdRawPayload
+        - ColdTable
+
+  reviews:
+    default_temperature: hot
+    primary_question: "O que está sendo aceito, com base em quais critérios e por qual autoridade?"
+    hot:
+      sources:
+        - reviews.status in [blocked, ready_to_close, in_review]
+        - reviews.risk in [high, critical]
+      components:
+        - HotDecisionCard
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - reviews.status = queued
+      components:
+        - ReviewQueue
+        - ReviewChecklist
+    cold:
+      templates:
+        - ColdConversation
+        - ColdAuditTrail
+        - ColdRelationsPanel
+
+  financeiro:
+    default_temperature: mixed
+    primary_question: "Que obrigação financeira exige ação, prova ou aprovação agora?"
+    hot:
+      sources:
+        - finance_records.status in [due, missing_evidence, needs_approval, denied]
+        - costs.anomaly = true
+      components:
+        - HotFinancialUrgencyCard
+        - HotEvidenceNeededCard
+        - HotDecisionCard
+      max_visible: 3
+    warm:
+      sources:
+        - finance_records.status = scheduled
+        - budget.current_month
+      components:
+        - DueBills
+        - BudgetProgress
+    cold:
+      templates:
+        - ColdTable
+        - ColdChartPanel
+        - ColdBreakdownPanel
+        - ColdAuditTrail
+
+  costs:
+    default_temperature: mixed
+    primary_question: "Esse custo é esperado, atribuível e justificado por evidência?"
+    hot:
+      sources:
+        - costs.anomaly = true
+        - costs.evidence = missing
+      components:
+        - HotFinancialUrgencyCard
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - costs.period = current_month
+      components:
+        - CostTable
+        - CostAnomalyList
+    cold:
+      templates:
+        - ColdChartPanel
+        - ColdBreakdownPanel
+        - ColdTable
+
+  vendors:
+    default_temperature: mixed
+    primary_question: "De quais entidades externas o LAB depende e qual risco cada uma introduz?"
+    hot:
+      sources:
+        - vendors.state in [payment_issue, legal_attention, pending]
+        - connections.state in [missing, degraded]
+      components:
+        - HotFinancialUrgencyCard
+        - HotLegalExposureCard
+        - HotBlockerCard
+    warm:
+      sources:
+        - vendors.state in [active, recurring]
+      components:
+        - VendorList
+        - SubscriptionRows
+    cold:
+      templates:
+        - ColdTable
+        - ColdRelationsPanel
+        - ColdAuditTrail
+
+  legal:
+    default_temperature: mixed
+    primary_question: "Qual obrigação legal pode vencer, expor ou bloquear o LAB?"
+    hot:
+      sources:
+        - legal_records.risk in [high, critical]
+        - legal_records.status in [expiring, expired]
+        - obligations.deadline = soon
+      components:
+        - HotLegalExposureCard
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - legal_records.status = active
+      components:
+        - LegalObligationRows
+        - ContractCards
+    cold:
+      templates:
+        - ColdDocumentArchive
+        - ColdAuditTrail
+        - ColdRelationsPanel
+
+  policies:
+    default_temperature: mixed
+    primary_question: "Esta regra está governando o sistema de forma útil, atual e comprovável?"
+    hot:
+      sources:
+        - policies.status = needs_review
+        - gates.blocked_by_policy = true
+      components:
+        - HotDecisionCard
+        - HotBlockerCard
+    warm:
+      sources:
+        - policies.status = active
+      components:
+        - PolicyList
+        - LinkedGates
+    cold:
+      templates:
+        - ColdTable
+        - ColdAuditTrail
+        - ColdRelationsPanel
+
+  gates:
+    default_temperature: hot
+    primary_question: "Há autoridade e evidência suficientes para avançar estado?"
+    hot:
+      sources:
+        - gate_decisions.status in [needs_approval, denied, error]
+      components:
+        - HotDecisionCard
+        - HotEvidenceNeededCard
+      max_visible: 4
+    warm:
+      sources:
+        - gate_decisions.status = ok
+      components:
+        - GateDecisionQueue
+        - ApprovalRequests
+    cold:
+      templates:
+        - ColdAuditTrail
+        - ColdTable
+
+  secrets:
+    default_temperature: mixed
+    primary_question: "Que capacidade está bloqueada por secret ausente, stale ou inseguro?"
+    hot:
+      sources:
+        - secrets.presence in [missing, stale]
+        - secrets.dependents.blocked = true
+      components:
+        - HotBlockerCard
+        - HotRuntimeImpactCard
+    warm:
+      sources:
+        - secrets.presence = present
+      components:
+        - SecretReferenceRows
+        - ProviderStatus
+    cold:
+      templates:
+        - ColdTable
+        - ColdRelationsPanel
+        - ColdRawPayload
+
+  connections:
+    default_temperature: mixed
+    primary_question: "Que integração externa está disponível, degradada ou bloqueando operação?"
+    hot:
+      sources:
+        - connections.state in [missing, degraded]
+        - connections.risks.not_empty = true
+      components:
+        - HotBlockerCard
+        - HotRuntimeImpactCard
+    warm:
+      sources:
+        - connections.state in [connected, configuring]
+      components:
+        - ConnectionGroups
+        - ProviderRows
+    cold:
+      templates:
+        - ColdTable
+        - ColdRelationsPanel
+        - ColdAuditTrail
+
+  schedules:
+    default_temperature: mixed
+    primary_question: "O previsto aconteceu de fato, e que prova fechou isso?"
+    hot:
+      sources:
+        - schedules.status = missed
+        - schedules.quality < 80
+      components:
+        - HotScheduleDriftCard
+        - HotGhostResolutionCard
+    warm:
+      sources:
+        - schedules.status in [upcoming, recurring]
+      components:
+        - UpcomingRuns
+        - RecurringWorkflowRows
+    cold:
+      templates:
+        - ColdTimeline
+        - ColdAuditTrail
+        - ColdStatusLine
+
+  analytics:
+    default_temperature: cold
+    primary_question: "Que padrão sistêmico exige mudança de operação?"
+    hot:
+      sources:
+        - analytics.anomaly = true
+        - trends.direction = worsening
+      components:
+        - HotProblemCard
+    warm:
+      sources:
+        - saved_questions.active = true
+      components:
+        - MetricCards
+        - SegmentedControls
+    cold:
+      templates:
+        - ColdChartPanel
+        - ColdBreakdownPanel
+        - ColdTable
+
+  settings:
+    default_temperature: cold
+    primary_question: "Que configuração altera comportamento real do sistema e exige cuidado?"
+    hot:
+      sources:
+        - settings.change_risk in [policy_affecting, integration_affecting, dangerous]
+      components:
+        - HotDecisionCard
+        - HotBlockerCard
+    warm:
+      sources:
+        - settings.group in [runtime, appearance, data]
+      components:
+        - SettingsGroups
+        - ToggleRows
+        - SelectRows
+    cold:
+      templates:
+        - ColdTable
+        - ColdRawPayload
+        - ColdRelationsPanel
+
+  expedicoes:
+    default_temperature: mixed
+    primary_question: "Que expedição está viva, bloqueada ou exigindo decisão agora?"
+    hot:
+      sources:
+        - expeditions.status in [blocked, needs_approval, failed]
+      components:
+        - HotBlockerCard
+        - HotDecisionCard
+    warm:
+      sources:
+        - expeditions.status in [running, queued]
+      components: []
+    cold:
+      templates:
+        - ColdTimeline
+        - ColdAuditTrail
+
+  research-profile:
+    default_temperature: cold
+    primary_question: "Qual é a direção de pesquisa de longo prazo e que evidência sustenta mudanças nela?"
+    hot:
+      sources:
+        - research_profile.evidence_gap = true
+      components:
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - research_profile.changed_recently = true
+      components: []
+    cold:
+      templates:
+        - ColdDocumentArchive
+        - ColdAuditTrail
+
+  milestones:
+    default_temperature: mixed
+    primary_question: "Que marco de pesquisa está bloqueado, mudou ou precisa de evidência para avançar?"
+    hot:
+      sources:
+        - milestones.status in [blocked, needs_evidence]
+      components:
+        - HotEvidenceNeededCard
+        - HotBlockerCard
+    warm:
+      sources:
+        - milestones.status in [active, approaching]
+      components: []
+    cold:
+      templates:
+        - ColdTimeline
+        - ColdAuditTrail
+
+  short-term:
+    default_temperature: hot
+    primary_question: "O que o plano de curto prazo exige agora e o que está impedindo execução honesta?"
+    hot:
+      sources:
+        - short_term.status in [blocked, needs_decision, needs_evidence]
+      components:
+        - HotBlockerCard
+        - HotDecisionCard
+        - HotEvidenceNeededCard
+    warm:
+      sources:
+        - short_term.status in [active, next]
+      components: []
+    cold:
+      templates:
+        - ColdTimeline
+        - ColdAuditTrail

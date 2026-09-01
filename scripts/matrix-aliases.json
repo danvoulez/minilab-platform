@@ -1,0 +1,26 @@
+{
+  "$schema": "minilab.ui.matrix_aliases.v1",
+  "purpose": "Declared aliases: when matrix promises X and code imports Y, count as matched. Lets the validator reflect intent honestly without creating duplicate empty components just to satisfy a name.",
+  "aliases": {
+    "CheckInCards": ["HumanAttendance", "AppointmentList"],
+    "DecisionQueue": ["AttentionQueue"],
+    "ScheduleTimeline": ["Timeline", "WorkflowRunList"],
+    "MinilabMarkdown": ["RealtimeLabReport"],
+    "ReceiptCard": ["ReceiptList"],
+    "GhostCard": ["GhostList"],
+    "MachineCard": ["MachineCards"],
+    "HeartbeatStatus": ["MachineCards"],
+    "AutoOpenFirstEntityPreview": ["EntityList"],
+    "MissingFields": ["AIProposalCard"],
+    "LogLineShapePreview": ["AIProposalCard"],
+    "DecisionCards": ["GateDecisionQueue"],
+    "PolicyScopeBadges": ["PolicyList"],
+    "PolicyStatus": ["PolicyList"],
+    "ProviderRows": ["ConnectionGroups"],
+    "ConnectedBadges": ["ConnectionGroups"],
+    "DocumentPreview": ["MarkdownPreview", "DocGrid"],
+    "HumanCheckIn": ["HumanCheckInCard"],
+    "MaintenanceRows": ["MaintenanceTaskRows"]
+  },
+  "notes": "Composition: a parent component (e.g. MachineCards) covers the role of a finer component (MachineCard, HeartbeatStatus). Renderer wraps (RealtimeLabReport wraps MinilabMarkdown). Behavior is satisfied by structural sibling (AutoOpenFirstEntityPreview is the useEffect that opens EntityList's first item). Aliases declared here do not change runtime — only the matrix report."
+}

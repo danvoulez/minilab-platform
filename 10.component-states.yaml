@@ -1,0 +1,1119 @@
+schema: minilab.ui.component_states.v1
+document_type: component_states
+product: minilab.work official UI
+purpose: Define required visual and behavioral states for components and their showcase cases.
+family_defaults:
+  shell: &id001
+  - expanded
+  - collapsed
+  - active_area
+  - overflow_navigation
+  page: &id002
+  - default
+  - empty
+  - loading
+  - error
+  navigation: &id003
+  - default
+  - active
+  - disabled
+  - overflow
+  data: &id004
+  - default
+  - selected
+  - empty
+  - loading
+  - error
+  - dense
+  - overflow
+  state: &id005
+  - ok
+  - pending
+  - degraded
+  - ghost
+  - closed
+  - error
+  composer: &id006
+  - default
+  - focused
+  - loading
+  - with_attachment
+  - with_missing_fields
+  - error
+  - disabled
+  preview: &id007
+  - closed
+  - open
+  - loading
+  - error
+  - with_actions
+  - technical_detail
+  evidence: &id008
+  - default
+  - selected
+  - ghost
+  - closed
+  - missing_evidence
+  - blocking
+  registry: &id009
+  - type_table
+  - entity_list
+  - selected
+  - empty
+  - loading
+  - error
+  lab-today: &id010
+  - default
+  - with_urgencies
+  - with_markdown_table
+  - with_actions
+  - loading
+  - error
+  machines: &id011
+  - online
+  - offline
+  - degraded
+  - selected
+  - with_alert
+  - loading
+  - error
+  sensors: &id012
+  - alive
+  - silent
+  - degraded
+  - unknown
+  - unregistered
+  - ghost
+  - syncing
+  - error
+  ghosts: &id013
+  - missing_proof
+  - missing_authority
+  - missing_context
+  - weak_data
+  - resolvable
+  - blocking
+  receipts: &id014
+  - closed
+  - inconclusive
+  - selected
+  - with_evidence
+  - with_digest
+component_overrides:
+  MachineCard:
+  - online
+  - offline
+  - degraded
+  - selected
+  - wifi_connected
+  - wifi_down
+  - recent_access
+  - running_job
+  - maintenance_due
+  SensorAliveGrid:
+  - all_alive
+  - some_silent
+  - unregistered_signal
+  - syncing
+  - error
+  AIProposalCard:
+  - proposal_ready
+  - missing_fields
+  - refining
+  - awaiting_review
+  - admitting
+  - admitted
+  - rejected
+  GhostCard:
+  - missing_proof
+  - missing_authority
+  - missing_context
+  - weak_data
+  - blocking
+  - resolvable
+  ReceiptCard:
+  - closed
+  - inconclusive
+  - with_digest
+  - linked_to_entity
+  - linked_to_ghost
+  RealtimeLabReport:
+  - loading
+  - fresh
+  - with_tables
+  - with_urgent_callouts
+  - error
+  LocalOperatorComposer:
+  - empty
+  - typing
+  - drafting
+  - proposal_ready
+  - error
+all_components:
+  MinilabOfficialUI:
+    family: shell
+    required_states: *id001
+  MinilabShell:
+    family: shell
+    required_states: *id001
+  ResizableLayout:
+    family: shell
+    required_states: *id001
+  LeftRail:
+    family: shell
+    required_states: *id001
+  LeftRailItem:
+    family: shell
+    required_states: *id001
+  RailContext:
+    family: shell
+    required_states: *id001
+  RailCollapseButton:
+    family: shell
+    required_states: *id001
+  AreaRouter:
+    family: shell
+    required_states: *id001
+  PageFrame:
+    family: page
+    required_states: *id002
+  PageHeader:
+    family: page
+    required_states: *id002
+  MiddlePanel:
+    family: page
+    required_states: *id002
+  Section:
+    family: page
+    required_states: *id002
+  SectionCard:
+    family: page
+    required_states: *id002
+  EmptyState:
+    family: page
+    required_states: *id002
+  LoadingState:
+    family: page
+    required_states: *id002
+  ErrorState:
+    family: page
+    required_states: *id002
+  SegmentedTabs:
+    family: navigation
+    required_states: *id003
+  FilterChips:
+    family: navigation
+    required_states: *id003
+  SearchInput:
+    family: navigation
+    required_states: *id003
+  ScopeSelector:
+    family: navigation
+    required_states: *id003
+  BreadcrumbLine:
+    family: navigation
+    required_states: *id003
+  SortControl:
+    family: navigation
+    required_states: *id003
+  ViewToggle:
+    family: navigation
+    required_states: *id003
+  EntityRow:
+    family: data
+    required_states: *id004
+  EntityTable:
+    family: data
+    required_states: *id004
+  EntityCard:
+    family: data
+    required_states: *id004
+  RecordList:
+    family: data
+    required_states: *id004
+  CompactRow:
+    family: data
+    required_states: *id004
+  DataTable:
+    family: data
+    required_states: *id004
+  RelationshipMiniGraph:
+    family: data
+    required_states: *id004
+  StatusPill:
+    family: state
+    required_states: *id005
+  StatusDot:
+    family: state
+    required_states: *id005
+  MetricCard:
+    family: state
+    required_states: *id005
+  MetricGrid:
+    family: state
+    required_states: *id005
+  Timeline:
+    family: state
+    required_states: *id005
+  ActivityFeed:
+    family: state
+    required_states: *id005
+  QualityScoreCard:
+    family: state
+    required_states: *id005
+  ProgressBar:
+    family: state
+    required_states: *id005
+  BigComposer:
+    family: composer
+    required_states: *id006
+  InlineComposer:
+    family: composer
+    required_states: *id006
+  AttachmentDropzone:
+    family: composer
+    required_states: *id006
+  AIProposalCard:
+    family: composer
+    required_states: *id006
+  MissingFields:
+    family: composer
+    required_states: *id006
+  RegisterActions:
+    family: composer
+    required_states: *id006
+  LogLineShapePreview:
+    family: composer
+    required_states: *id006
+  RefinementThread:
+    family: composer
+    required_states: *id006
+  InspectorPreview:
+    family: preview
+    required_states: *id007
+  PreviewHeader:
+    family: preview
+    required_states: *id007
+  EntityPreview:
+    family: preview
+    required_states: *id007
+  RegistryProviderPreview:
+    family: preview
+    required_states: *id007
+  RegistryAdmissionPreview:
+    family: preview
+    required_states: *id007
+  ReceiptPreview:
+    family: preview
+    required_states: *id007
+  GhostPreview:
+    family: preview
+    required_states: *id007
+  WorkorderPreview:
+    family: preview
+    required_states: *id007
+  SensorPreview:
+    family: preview
+    required_states: *id007
+  MachinePreview:
+    family: preview
+    required_states: *id007
+  RuntimePreview:
+    family: preview
+    required_states: *id007
+  LLMPreview:
+    family: preview
+    required_states: *id007
+  AgentPreview:
+    family: preview
+    required_states: *id007
+  DocumentPreview:
+    family: preview
+    required_states: *id007
+  CodePreview:
+    family: preview
+    required_states: *id007
+  LegalPreview:
+    family: preview
+    required_states: *id007
+  CostPreview:
+    family: preview
+    required_states: *id007
+  VendorPreview:
+    family: preview
+    required_states: *id007
+  PolicyPreview:
+    family: preview
+    required_states: *id007
+  GatePreview:
+    family: preview
+    required_states: *id007
+  BenchmarkPreview:
+    family: preview
+    required_states: *id007
+  JsonPreview:
+    family: preview
+    required_states: *id007
+  ReceiptCard:
+    family: evidence
+    required_states: *id008
+  GhostCard:
+    family: evidence
+    required_states: *id008
+  GateDecisionCard:
+    family: evidence
+    required_states: *id008
+  PolicyRow:
+    family: evidence
+    required_states: *id008
+  EvidenceBlock:
+    family: evidence
+    required_states: *id008
+  AuthorityBlock:
+    family: evidence
+    required_states: *id008
+  ReceiptDigest:
+    family: evidence
+    required_states: *id008
+  ArtifactHonestyBlock:
+    family: evidence
+    required_states: *id008
+  LogLineRecordCard:
+    family: evidence
+    required_states: *id008
+  LocalOperatorComposer:
+    family: composer
+    required_states: *id006
+  RegistryTypeTable:
+    family: registry
+    required_states: *id009
+  EntityList:
+    family: data
+    required_states: *id004
+  AutoOpenFirstEntityPreview:
+    family: interaction
+    required_states:
+    - default
+  EntityFilters:
+    family: registry
+    required_states: *id009
+  EntityTypeTabs:
+    family: registry
+    required_states: *id009
+  RegistryTable:
+    family: registry
+    required_states: *id009
+  LabGreeting:
+    family: lab
+    required_states: *id010
+  RealtimeLabReport:
+    family: lab
+    required_states: *id010
+  MinilabMarkdown:
+    family: content
+    required_states:
+    - default
+  ReportActionButtons:
+    family: lab
+    required_states: *id010
+  RealtimeReport:
+    family: lab
+    required_states: *id010
+  UrgencyList:
+    family: lab
+    required_states: *id010
+  TodayAppointments:
+    family: lab
+    required_states: *id010
+  ProblemsList:
+    family: lab
+    required_states: *id010
+  AccomplishmentsFeed:
+    family: lab
+    required_states: *id010
+  AttentionQueue:
+    family: lab
+    required_states: *id010
+  RecentReceipts:
+    family: lab
+    required_states: *id010
+  GhostSummary:
+    family: lab
+    required_states: *id010
+  MachineCards:
+    family: machines
+    required_states: *id011
+  MachineCard:
+    family: machines
+    required_states: *id011
+  HeartbeatStatus:
+    family: machines
+    required_states: *id011
+  CapabilityRows:
+    family: machines
+    required_states: *id011
+  RuntimeSummary:
+    family: machines
+    required_states: *id011
+  MachineReceipts:
+    family: machines
+    required_states: *id011
+  ProtectedActions:
+    family: machines
+    required_states: *id011
+  ConnectivityPanel:
+    family: machines
+    required_states: *id011
+  AccessHistory:
+    family: machines
+    required_states: *id011
+  JobActivityList:
+    family: machines
+    required_states: *id011
+  MaintenanceRows:
+    family: machines
+    required_states: *id011
+  SecurityEvents:
+    family: machines
+    required_states: *id011
+  SensorList:
+    family: sensors
+    required_states: *id012
+  SensorReadingCards:
+    family: sensors
+    required_states: *id012
+  SensorConfigRows:
+    family: sensors
+    required_states: *id012
+  SensorConclusions:
+    family: sensors
+    required_states: *id012
+  AlertRules:
+    family: sensors
+    required_states: *id012
+  MiniCharts:
+    family: analytics
+    required_states:
+    - default
+  ConclusionPanel:
+    family: sensors
+    required_states: *id012
+  SensorIntelligencePanel:
+    family: sensors
+    required_states: *id012
+  SensorAliveGrid:
+    family: sensors
+    required_states: *id012
+  SensorDataTable:
+    family: sensors
+    required_states: *id012
+  SensorImportPanel:
+    family: sensors
+    required_states: *id012
+  SensorSyncStatus:
+    family: sensors
+    required_states: *id012
+  SupabaseSyncPanel:
+    family: sensors
+    required_states: *id012
+  SensorConclusionPanel:
+    family: sensors
+    required_states: *id012
+  SensorToRegistryAction:
+    family: sensors
+    required_states: *id012
+  UnregisteredSignalList:
+    family: sensors
+    required_states: *id012
+  GhostList:
+    family: ghosts
+    required_states: *id013
+  MissingFieldBadges:
+    family: ghosts
+    required_states: *id013
+  GhostReasonFilter:
+    family: ghosts
+    required_states: *id013
+  ResolveAction:
+    family: ghosts
+    required_states: *id013
+  ConvertToRecordProposal:
+    family: ghosts
+    required_states: *id013
+  GhostTriageSummary:
+    family: ghosts
+    required_states: *id013
+  GhostReasonTabs:
+    family: ghosts
+    required_states: *id013
+  MissingEvidenceMatrix:
+    family: ghosts
+    required_states: *id013
+  ResolvableGhosts:
+    family: ghosts
+    required_states: *id013
+  GhostAgeBuckets:
+    family: ghosts
+    required_states: *id013
+  GhostDomainBreakdown:
+    family: ghosts
+    required_states: *id013
+  ReceiptList:
+    family: receipts
+    required_states: *id014
+  EvidenceSummary:
+    family: receipts
+    required_states: *id014
+  ReceiptFilters:
+    family: receipts
+    required_states: *id014
+  DigestView:
+    family: receipts
+    required_states: *id014
+  LinkedEntityPreview:
+    family: receipts
+    required_states: *id014
+  ReceiptLedgerSummary:
+    family: receipts
+    required_states: *id014
+  ReceiptTimeline:
+    family: receipts
+    required_states: *id014
+  ReceiptByEntity:
+    family: receipts
+    required_states: *id014
+  ReceiptByMachine:
+    family: receipts
+    required_states: *id014
+  ReceiptByWorkorder:
+    family: receipts
+    required_states: *id014
+  DayTimeline:
+    family: today
+    required_states:
+    - default
+  AppointmentList:
+    family: today
+    required_states:
+    - default
+  PlannedVsActual:
+    family: routine
+    required_states:
+    - default
+  CheckInCards:
+    family: today
+    required_states:
+    - default
+  MissedItems:
+    family: today
+    required_states:
+    - default
+  DecisionQueue:
+    family: gates
+    required_states:
+    - default
+  ScheduleQuality:
+    family: schedules
+    required_states:
+    - default
+  RoutineChecklist:
+    family: routine
+    required_states:
+    - default
+  ScheduleTimeline:
+    family: routine
+    required_states:
+    - default
+  AgentAttendance:
+    family: routine
+    required_states:
+    - default
+  HumanAttendance:
+    family: routine
+    required_states:
+    - default
+  WorkflowRunList:
+    family: routine
+    required_states:
+    - default
+  MissedRoutineList:
+    family: routine
+    required_states:
+    - default
+  WorkorderList:
+    family: workorders
+    required_states:
+    - default
+  WorkorderCard:
+    family: workorders
+    required_states:
+    - default
+  StatusPills:
+    family: state
+    required_states: *id005
+  ScopeFilters:
+    family: navigation
+    required_states: *id003
+  NewWorkorderComposer:
+    family: workorders
+    required_states:
+    - default
+  ExecutionReadiness:
+    family: workorders
+    required_states:
+    - default
+  KnowledgeSearch:
+    family: knowledge
+    required_states:
+    - default
+  KnowledgeCards:
+    family: knowledge
+    required_states:
+    - default
+  PlaybookList:
+    family: knowledge
+    required_states:
+    - default
+  ContextPacks:
+    family: knowledge
+    required_states:
+    - default
+  PinnedKnowledge:
+    family: knowledge
+    required_states:
+    - default
+  EntityRelationList:
+    family: data
+    required_states: *id004
+  DocSearch:
+    family: docs
+    required_states:
+    - default
+  DocGrid:
+    family: docs
+    required_states:
+    - default
+  PinnedDocs:
+    family: docs
+    required_states:
+    - default
+  MarkdownPreview:
+    family: docs
+    required_states:
+    - default
+  DocStatusBadge:
+    family: docs
+    required_states:
+    - default
+  CareChecklist:
+    family: human
+    required_states:
+    - default
+  HumanCheckIn:
+    family: human
+    required_states:
+    - default
+  GentleAlerts:
+    family: human
+    required_states:
+    - default
+  SupplyNeeds:
+    family: human
+    required_states:
+    - default
+  RoutineQuality:
+    family: human
+    required_states:
+    - default
+  PhysicalAssetList:
+    family: santo-andre
+    required_states:
+    - default
+  CleaningSchedule:
+    family: santo-andre
+    required_states:
+    - default
+  SupplyList:
+    family: santo-andre
+    required_states:
+    - default
+  SpaceObservationFeed:
+    family: santo-andre
+    required_states:
+    - default
+  EnforcementPanel:
+    family: santo-andre
+    required_states:
+    - default
+  RuntimeRows:
+    family: runtimes
+    required_states:
+    - default
+  VersionBadges:
+    family: runtimes
+    required_states:
+    - default
+  InstallStatus:
+    family: runtimes
+    required_states:
+    - default
+  ConfigGroups:
+    family: settings
+    required_states:
+    - default
+  RuntimeHealth:
+    family: runtimes
+    required_states:
+    - default
+  LLMEntityCards:
+    family: llms
+    required_states:
+    - default
+  CapabilityMatrix:
+    family: llms
+    required_states:
+    - default
+  UsageRows:
+    family: llms
+    required_states:
+    - default
+  CostBadges:
+    family: llms
+    required_states:
+    - default
+  BenchmarkStatus:
+    family: llms
+    required_states:
+    - default
+  RoleFilters:
+    family: llms
+    required_states:
+    - default
+  PremiumCallMeter:
+    family: code
+    required_states:
+    - default
+  AgentList:
+    family: agents
+    required_states:
+    - default
+  AttendanceStatus:
+    family: agents
+    required_states:
+    - default
+  AssignedWorkflows:
+    family: agents
+    required_states:
+    - default
+  PermissionSummary:
+    family: agents
+    required_states:
+    - default
+  AgentRunHistory:
+    family: agents
+    required_states:
+    - default
+  ResearchWorkbench:
+    family: research
+    required_states:
+    - default
+  ResearchComposer:
+    family: research
+    required_states:
+    - default
+  HypothesisList:
+    family: research
+    required_states:
+    - default
+  ExperimentCards:
+    family: research
+    required_states:
+    - default
+  PaperQueue:
+    family: research
+    required_states:
+    - default
+  ResultTimeline:
+    family: research
+    required_states:
+    - default
+  BenchmarkSuiteList:
+    family: benchmarks
+    required_states:
+    - default
+  DatasetRows:
+    family: benchmarks
+    required_states:
+    - default
+  RunHistory:
+    family: benchmarks
+    required_states:
+    - default
+  MetricCards:
+    family: analytics
+    required_states:
+    - default
+  LeaderboardDraft:
+    family: benchmarks
+    required_states:
+    - default
+  ReportBuilder:
+    family: benchmarks
+    required_states:
+    - default
+  ReproducibilityChecklist:
+    family: benchmarks
+    required_states:
+    - default
+  CodeComposer:
+    family: code
+    required_states:
+    - default
+  FileExplorer:
+    family: code
+    required_states:
+    - default
+  PlanPanel:
+    family: code
+    required_states:
+    - default
+  DiffViewer:
+    family: code
+    required_states:
+    - default
+  LogPanel:
+    family: code
+    required_states:
+    - default
+  TestResults:
+    family: code
+    required_states:
+    - default
+  ReviewQueue:
+    family: reviews
+    required_states:
+    - default
+  DiffReview:
+    family: reviews
+    required_states:
+    - default
+  GateDecisionPanel:
+    family: reviews
+    required_states:
+    - default
+  CommentThread:
+    family: reviews
+    required_states:
+    - default
+  ReviewChecklist:
+    family: reviews
+    required_states:
+    - default
+  FinanceOverviewCards:
+    family: financeiro
+    required_states:
+    - default
+  DueBills:
+    family: financeiro
+    required_states:
+    - default
+  BudgetProgress:
+    family: financeiro
+    required_states:
+    - default
+  SpendingTimeline:
+    family: financeiro
+    required_states:
+    - default
+  CategoryBreakdown:
+    family: financeiro
+    required_states:
+    - default
+  CostTable:
+    family: costs
+    required_states:
+    - default
+  CostAllocationCards:
+    family: costs
+    required_states:
+    - default
+  CostByEntity:
+    family: costs
+    required_states:
+    - default
+  TrendCharts:
+    family: analytics
+    required_states:
+    - default
+  CostAnomalyList:
+    family: costs
+    required_states:
+    - default
+  VendorList:
+    family: vendors
+    required_states:
+    - default
+  SubscriptionRows:
+    family: vendors
+    required_states:
+    - default
+  ContractLinks:
+    family: vendors
+    required_states:
+    - default
+  PaymentStatus:
+    family: vendors
+    required_states:
+    - default
+  ContactInfo:
+    family: vendors
+    required_states:
+    - default
+  LegalObligationRows:
+    family: legal
+    required_states:
+    - default
+  ContractCards:
+    family: legal
+    required_states:
+    - default
+  RiskBadges:
+    family: legal
+    required_states:
+    - default
+  OfficialAddressCard:
+    family: legal
+    required_states:
+    - default
+  CorrespondenceLog:
+    family: legal
+    required_states:
+    - default
+  PolicyList:
+    family: policies
+    required_states:
+    - default
+  PolicyScopeBadges:
+    family: policies
+    required_states:
+    - default
+  PolicyStatus:
+    family: policies
+    required_states:
+    - default
+  PolicyEditorPreview:
+    family: policies
+    required_states:
+    - default
+  LinkedGates:
+    family: policies
+    required_states:
+    - default
+  GateDecisionQueue:
+    family: gates
+    required_states:
+    - default
+  DecisionCards:
+    family: gates
+    required_states:
+    - default
+  ApprovalRequests:
+    family: gates
+    required_states:
+    - default
+  GateHistory:
+    family: gates
+    required_states:
+    - default
+  ReasonPanel:
+    family: gates
+    required_states:
+    - default
+  SecretReferenceRows:
+    family: secrets
+    required_states:
+    - default
+  ProviderStatus:
+    family: connections
+    required_states:
+    - default
+  MissingSecretWarnings:
+    family: secrets
+    required_states:
+    - default
+  AccessPolicyLinks:
+    family: secrets
+    required_states:
+    - default
+  ConnectionGroups:
+    family: connections
+    required_states:
+    - default
+  ProviderRows:
+    family: connections
+    required_states:
+    - default
+  ConnectedBadges:
+    family: connections
+    required_states:
+    - default
+  ConfigureActions:
+    family: connections
+    required_states:
+    - default
+  MCPMarketplaceLikeList:
+    family: connections
+    required_states:
+    - default
+  ScheduleCalendar:
+    family: schedules
+    required_states:
+    - default
+  RecurringWorkflowRows:
+    family: schedules
+    required_states:
+    - default
+  UpcomingRuns:
+    family: schedules
+    required_states:
+    - default
+  MissedSchedules:
+    family: schedules
+    required_states:
+    - default
+  Charts:
+    family: analytics
+    required_states:
+    - default
+  ExportButton:
+    family: analytics
+    required_states:
+    - default
+  BreakdownTables:
+    family: analytics
+    required_states:
+    - default
+  SettingsRail:
+    family: settings
+    required_states:
+    - default
+  SettingsSearch:
+    family: settings
+    required_states:
+    - default
+  SettingsGroups:
+    family: settings
+    required_states:
+    - default
+  ToggleRows:
+    family: settings
+    required_states:
+    - default
+  SelectRows:
+    family: settings
+    required_states:
+    - default
+  DangerZone:
+    family: settings
+    required_states:
+    - default

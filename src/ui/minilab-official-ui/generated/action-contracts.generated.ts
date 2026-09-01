@@ -1,0 +1,107 @@
+/* AUTO-GENERATED from minilab UI manifests. Do not edit manually. */
+
+export const GENERATED_ACTION_CONTRACTS = {
+  "schema": "minilab.ui.action_contracts.v1",
+  "document_type": "action_contracts",
+  "actions": {
+    "registry.propose_change": {
+      "sources": [
+        "EntityPreview",
+        "LocalOperatorComposer"
+      ],
+      "result": [
+        "AIProposalCard"
+      ],
+      "forbidden": [
+        "direct_row_edit",
+        "local_only_save",
+        "model_decides_validity"
+      ]
+    },
+    "registry.admit_state": {
+      "sources": [
+        "AIProposalCard",
+        "RegisterActions"
+      ],
+      "result": [
+        "registry_admission_receipt",
+        "registry_version",
+        "registry_entity_current_pointer"
+      ],
+      "requires": [
+        "explicit_human_review",
+        "provider_registry_admission_capability"
+      ],
+      "forbidden": [
+        "parallel_registry_table",
+        "local_only_save",
+        "model_decides_validity",
+        "provider_specific_ontology_in_ui"
+      ]
+    },
+    "sensor.sync_now": {
+      "sources": [
+        "SensorPreview",
+        "SupabaseSyncPanel"
+      ],
+      "result": [
+        "sync_event",
+        "receipt_or_ghost"
+      ],
+      "forbidden": [
+        "claim_success_without_receipt"
+      ]
+    },
+    "sensor.add_to_registry": {
+      "sources": [
+        "UnregisteredSignalList",
+        "SensorToRegistryAction"
+      ],
+      "result": [
+        "AIProposalCard",
+        "registry_candidate"
+      ]
+    },
+    "ghost.resolve_with_receipt": {
+      "sources": [
+        "GhostPreview"
+      ],
+      "result": [
+        "receipt",
+        "ghost_resolved"
+      ]
+    },
+    "receipt.export": {
+      "sources": [
+        "ReceiptPreview"
+      ],
+      "result": [
+        "download_or_copy"
+      ],
+      "requires": [
+        "receipt_closed"
+      ]
+    },
+    "machine.request_protected_action": {
+      "sources": [
+        "ProtectedActions",
+        "MachinePreview"
+      ],
+      "result": [
+        "gate_decision"
+      ],
+      "requires": [
+        "policy_check"
+      ]
+    },
+    "lab.report_action": {
+      "sources": [
+        "ReportActionButtons",
+        "RealtimeLabReport"
+      ],
+      "result": [
+        "preview_or_workorder_or_gate"
+      ]
+    }
+  }
+} as const;

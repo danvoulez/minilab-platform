@@ -1,0 +1,94 @@
+schema: minilab.ui.page_acceptance.v1
+document_type: page_acceptance
+pages:
+  registry:
+  - primary_new_action_focuses_registry_composer
+  - complete_platform_contract_catalog_visible
+  - all_platform_registry_kinds_remain_visible_even_if_provider_lacks_them
+  - provider_capability_status_does_not_rewrite_platform_ontology
+  - provider_entity_list_never_replaced_by_unmarked_demo_data
+  - provider_entities_open_current_state_and_history_preview
+  - admission_requires_explicit_review
+  - successful_admission_opens_admission_receipt_preview
+  - no_direct_edit
+  lab-today:
+  - dan_and_lab_counts_visible
+  - collision_count_visible
+  - routine_automation_count_visible
+  - research_health_visible_when_available
+  - research_plan_identity_visible
+  - research_level_opens_json_preview
+  - observatorio_embeds_live_256_eve_surface
+  - source_failures_are_visible_not_faked
+  machines:
+  - three_lab_machines_visible
+  - wifi_visible
+  - last_boot_visible
+  - access_history_visible
+  - jobs_visible
+  - preview_opens_machine_detail
+  sensors:
+  - liveness_visible
+  - import_visible
+  - supabase_sync_visible
+  - unregistered_signals_can_be_added_to_registry
+  - sensor_intelligence_visible
+  ghosts:
+  - triage_summary_visible
+  - missing_reason_filters_visible
+  - resolvable_ghosts_visible
+  - ghost_preview_shows_missing
+  receipts:
+  - ledger_summary_visible
+  - receipt_list_visible
+  - receipt_preview_shows_evidence
+  - resolved_ghosts_linked
+  lab-calendar:
+  - dan_and_lab_one_off_timelines_visible
+  - source_status_visible_per_calendar
+  - overlaps_visually_marked
+  - collision_list_uses_source_overlaps
+  - event_opens_json_preview
+  - no_compliance_inference
+  lab-routine:
+  - recurring_event_total_visible
+  - source_status_visible
+  - events_grouped_by_frequency
+  - event_opens_json_preview
+  - no_attendance_or_compliance_claim_without_source
+  lab-construction:
+  - commits_today_visible
+  - dirty_file_count_and_paths_visible
+  - local_only_code_is_visibly_risky
+  - remote_comparison_age_visible
+  - plan_stages_labelled_declared_not_complete
+  - no_progress_percentage_without_evidence_channel
+  - gaps_are_declared_not_inferred
+  - folder_activity_not_presented_as_separate_repositories
+  research-profile:
+  - source_status_visible
+  - level_hash_visible
+  - combined_plan_hash_visible
+  - exact_source_text_visible_without_paraphrase
+  - level_opens_json_preview
+  milestones:
+  - source_status_visible
+  - level_hash_visible
+  - combined_plan_hash_visible
+  - exact_source_text_visible_without_paraphrase
+  - level_opens_json_preview
+  short-term:
+  - source_status_visible
+  - level_hash_visible
+  - combined_plan_hash_visible
+  - exact_source_text_visible_without_paraphrase
+  - level_opens_json_preview
+  expedicoes:
+  - official_256_eve_surface_embedded
+  - external_open_link_visible
+  - surface_not_reimplemented_locally
+default_for_all_other_pages:
+- PageHeader_visible
+- lede_visible
+- manifest_placeholder_or_real_content_visible
+- no_fake_execution_claims

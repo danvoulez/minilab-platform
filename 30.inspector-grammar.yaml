@@ -1,0 +1,75 @@
+schema: minilab.ui.inspector_grammar.v1
+document_type: inspector_grammar
+product: minilab.work official UI
+
+inspector:
+  order:
+    - decision_header
+    - evidence
+    - relations
+    - raw
+
+  sections:
+    decision_header:
+      purpose: state, risk, next action, authority
+      required_for:
+        - gate
+        - workorder
+        - ghost
+        - receipt
+        - machine
+        - runtime
+        - secret
+        - connection
+        - legal
+        - cost
+        - vendor
+        - agent
+        - sensor
+        - llm
+      fields:
+        - state
+        - risk
+        - next_action
+        - authority
+        - why_it_matters
+
+    evidence:
+      purpose: proof, missing proof, receipt, digest, source
+      fields:
+        - evidence_summary
+        - missing_evidence
+        - receipt
+        - digest
+        - source
+
+    relations:
+      purpose: linked records and affected dependencies
+      examples:
+        - linked_workorder
+        - linked_receipt
+        - linked_ghost
+        - linked_policy
+        - linked_entity
+        - affected_runtime
+        - affected_agent
+        - affected_vendor
+        - linked_document
+
+    raw:
+      purpose: technical payload
+      default_state: collapsed
+      forbidden_on_middle: true
+      fields:
+        - id
+        - timestamps
+        - JSON
+        - source_payload
+
+rules:
+  - raw_payload_never_first
+  - json_always_disclosure
+  - inspector_starts_with_human_decision_context
+  - evidence_before_raw
+  - relations_before_raw
+  - no_secret_values_in_raw

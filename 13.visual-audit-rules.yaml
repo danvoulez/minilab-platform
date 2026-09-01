@@ -1,0 +1,39 @@
+schema: minilab.ui.visual_audit_rules.v1
+document_type: visual_audit_rules
+rules:
+- id: no_horizontal_overflow
+  severity: blocking
+  assertion: No component or page may create horizontal overflow at desktop width.
+- id: no_repeated_copy_blocks
+  severity: medium
+  assertion: Avoid repeated explanatory text inside stacked cards.
+- id: active_state_must_be_obvious
+  severity: high
+  assertion: Active nav item must show border/background/text/icon contrast.
+- id: preview_must_not_squash_middle
+  severity: high
+  assertion: Opening preview must keep middle legible.
+- id: card_density_must_be_low
+  severity: medium
+  assertion: Cards should stay low and compact unless page blueprint says hero.
+- id: middle_must_not_show_raw_engine_jargon
+  severity: high
+  assertion: Technical engine fields belong in preview or JSON detail.
+- id: component_must_have_empty_state
+  severity: medium
+  assertion: List/table/workbench components must handle empty state.
+- id: secrets_never_visible
+  severity: blocking
+  assertion: Secret values must never render, including JSON preview.
+problem_categories:
+- broken_layout
+- overflow
+- repetition
+- bad_density
+- bad_hierarchy
+- bad_empty_state
+- wrong_component
+- raw_jargon
+- fake_action
+- missing_preview
+- missing_state

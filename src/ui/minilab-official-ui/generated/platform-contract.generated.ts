@@ -1,0 +1,759 @@
+/* AUTO-GENERATED from minilab UI manifests. Do not edit manually. */
+
+export const GENERATED_PLATFORM_CONTRACT = {
+  "schema": "minilab.platform.contract.v1",
+  "document_type": "platform_contract",
+  "product": "minilab.work",
+  "contract_version": 1,
+  "stance": {
+    "ui_is_product_contract": true,
+    "backend_is_provider": true,
+    "provider_may_support_subset": true,
+    "unavailable_capability_does_not_remove_surface": true,
+    "adapters_translate_provider_models_to_platform_models": true,
+    "provider_internal_ontology_must_not_leak_into_ui": true,
+    "models_may_propose_but_not_claim_operational_truth": true
+  },
+  "capability_states": [
+    "available",
+    "degraded",
+    "unavailable",
+    "unknown"
+  ],
+  "capabilities": {
+    "platform.capabilities.read": {
+      "domain": "platform",
+      "mode": "read",
+      "endpoint_refs": [
+        "platform.capabilities.get"
+      ]
+    },
+    "lab.calendar.read": {
+      "domain": "lab",
+      "mode": "read",
+      "endpoint_refs": [
+        "lab.calendar.today"
+      ]
+    },
+    "lab.routine.read": {
+      "domain": "lab",
+      "mode": "read",
+      "endpoint_refs": [
+        "lab.calendar.routine"
+      ]
+    },
+    "lab.research.read": {
+      "domain": "lab",
+      "mode": "read",
+      "endpoint_refs": [
+        "lab.research.current"
+      ]
+    },
+    "lab.construction.read": {
+      "domain": "lab",
+      "mode": "read",
+      "endpoint_refs": [
+        "lab.construction.current"
+      ]
+    },
+    "lab.health.read": {
+      "domain": "lab",
+      "mode": "read",
+      "endpoint_refs": [
+        "lab.health.current"
+      ]
+    },
+    "expeditions.embed": {
+      "domain": "expeditions",
+      "mode": "embed",
+      "provider_contract": "external_surface_or_adapter"
+    },
+    "registry.catalog": {
+      "domain": "registry",
+      "mode": "contract",
+      "source": "16.registry-type-schemas.yaml"
+    },
+    "registry.list": {
+      "domain": "registry",
+      "mode": "read",
+      "endpoint_refs": [
+        "registry.entities.list"
+      ]
+    },
+    "registry.inspect": {
+      "domain": "registry",
+      "mode": "read",
+      "endpoint_refs": [
+        "registry.entity.get",
+        "registry.entity.versions"
+      ]
+    },
+    "registry.propose": {
+      "domain": "registry",
+      "mode": "local_assist",
+      "authority": "proposal_only"
+    },
+    "registry.admit": {
+      "domain": "registry",
+      "mode": "write",
+      "endpoint_refs": [
+        "registry.admissions.create"
+      ],
+      "requires_human_review": true
+    },
+    "sensors.read": {
+      "domain": "sensors",
+      "mode": "read",
+      "endpoint_refs": [
+        "sensors.list"
+      ]
+    },
+    "sensors.import": {
+      "domain": "sensors",
+      "mode": "write",
+      "endpoint_refs": [
+        "sensors.import"
+      ]
+    },
+    "sensors.sync": {
+      "domain": "sensors",
+      "mode": "write",
+      "endpoint_refs": [
+        "sensors.sync"
+      ]
+    },
+    "knowledge.read": {
+      "domain": "knowledge",
+      "mode": "read",
+      "endpoint_refs": [
+        "knowledge.list"
+      ]
+    },
+    "docs.read": {
+      "domain": "docs",
+      "mode": "read",
+      "endpoint_refs": [
+        "docs.list"
+      ]
+    },
+    "human.read": {
+      "domain": "human",
+      "mode": "read",
+      "endpoint_refs": [
+        "human.summary"
+      ]
+    },
+    "spaces.read": {
+      "domain": "spaces",
+      "mode": "read",
+      "endpoint_refs": [
+        "spaces.status"
+      ]
+    },
+    "machines.read": {
+      "domain": "machines",
+      "mode": "read",
+      "endpoint_refs": [
+        "machines.status"
+      ]
+    },
+    "machines.protected_action": {
+      "domain": "machines",
+      "mode": "write",
+      "endpoint_refs": [
+        "machines.action.request"
+      ],
+      "gated": true
+    },
+    "runtimes.read": {
+      "domain": "runtimes",
+      "mode": "read",
+      "endpoint_refs": [
+        "runtimes.list"
+      ]
+    },
+    "llms.read": {
+      "domain": "llms",
+      "mode": "read",
+      "endpoint_refs": [
+        "llms.list"
+      ]
+    },
+    "agents.read": {
+      "domain": "agents",
+      "mode": "read",
+      "endpoint_refs": [
+        "agents.list"
+      ]
+    },
+    "research.workbench": {
+      "domain": "research",
+      "mode": "read_write",
+      "endpoint_refs": [
+        "research.workbench"
+      ]
+    },
+    "benchmarks.read": {
+      "domain": "benchmarks",
+      "mode": "read",
+      "endpoint_refs": [
+        "benchmarks.list"
+      ]
+    },
+    "code.workbench": {
+      "domain": "code",
+      "mode": "read_write",
+      "endpoint_refs": [
+        "code.workbench"
+      ]
+    },
+    "reviews.read": {
+      "domain": "reviews",
+      "mode": "read",
+      "endpoint_refs": [
+        "reviews.list"
+      ]
+    },
+    "reviews.decide": {
+      "domain": "reviews",
+      "mode": "write",
+      "endpoint_refs": [
+        "reviews.decide"
+      ],
+      "gated": true
+    },
+    "finance.read": {
+      "domain": "finance",
+      "mode": "read",
+      "endpoint_refs": [
+        "finance.summary"
+      ]
+    },
+    "costs.read": {
+      "domain": "finance",
+      "mode": "read",
+      "endpoint_refs": [
+        "costs.list"
+      ]
+    },
+    "vendors.read": {
+      "domain": "vendors",
+      "mode": "read",
+      "endpoint_refs": [
+        "vendors.list"
+      ]
+    },
+    "legal.read": {
+      "domain": "legal",
+      "mode": "read",
+      "endpoint_refs": [
+        "legal.list"
+      ]
+    },
+    "policies.read": {
+      "domain": "policies",
+      "mode": "read",
+      "endpoint_refs": [
+        "policies.list"
+      ]
+    },
+    "policies.manage": {
+      "domain": "policies",
+      "mode": "write",
+      "endpoint_refs": [
+        "policies.update"
+      ]
+    },
+    "gates.read": {
+      "domain": "gates",
+      "mode": "read",
+      "endpoint_refs": [
+        "gates.list"
+      ]
+    },
+    "gates.decide": {
+      "domain": "gates",
+      "mode": "write",
+      "endpoint_refs": [
+        "gates.decide"
+      ]
+    },
+    "secrets.references.read": {
+      "domain": "secrets",
+      "mode": "read",
+      "endpoint_refs": [
+        "secrets.references"
+      ],
+      "secret_material_in_response": false
+    },
+    "connections.read": {
+      "domain": "connections",
+      "mode": "read",
+      "endpoint_refs": [
+        "connections.list"
+      ]
+    },
+    "connections.configure": {
+      "domain": "connections",
+      "mode": "write",
+      "endpoint_refs": [
+        "connections.configure"
+      ]
+    },
+    "schedules.read": {
+      "domain": "schedules",
+      "mode": "read",
+      "endpoint_refs": [
+        "schedules.list"
+      ]
+    },
+    "schedules.manage": {
+      "domain": "schedules",
+      "mode": "write",
+      "endpoint_refs": [
+        "schedules.update"
+      ]
+    },
+    "analytics.read": {
+      "domain": "analytics",
+      "mode": "read",
+      "endpoint_refs": [
+        "analytics.summary"
+      ]
+    },
+    "settings.read": {
+      "domain": "settings",
+      "mode": "read",
+      "endpoint_refs": [
+        "settings.get"
+      ]
+    },
+    "settings.manage": {
+      "domain": "settings",
+      "mode": "write",
+      "endpoint_refs": [
+        "settings.update"
+      ]
+    },
+    "workorders.read": {
+      "domain": "workorders",
+      "mode": "read",
+      "endpoint_refs": [
+        "workorders.list"
+      ]
+    },
+    "workorders.manage": {
+      "domain": "workorders",
+      "mode": "write",
+      "endpoint_refs": [
+        "workorders.create"
+      ]
+    },
+    "receipts.read": {
+      "domain": "receipts",
+      "mode": "read",
+      "endpoint_refs": [
+        "receipts.list"
+      ]
+    },
+    "ghosts.read": {
+      "domain": "ghosts",
+      "mode": "read",
+      "endpoint_refs": [
+        "ghosts.list"
+      ]
+    },
+    "ghosts.resolve": {
+      "domain": "ghosts",
+      "mode": "write",
+      "endpoint_refs": [
+        "ghosts.resolve"
+      ]
+    }
+  },
+  "surfaces": {
+    "lab-today": {
+      "required": [
+        "lab.calendar.read",
+        "lab.routine.read",
+        "lab.research.read"
+      ],
+      "optional": [
+        "lab.health.read"
+      ],
+      "fallback": "partial_source_status"
+    },
+    "lab-construction": {
+      "required": [
+        "lab.construction.read"
+      ],
+      "optional": [],
+      "fallback": "disconnected_state"
+    },
+    "lab-routine": {
+      "required": [
+        "lab.routine.read"
+      ],
+      "optional": [
+        "lab.health.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "lab-calendar": {
+      "required": [
+        "lab.calendar.read"
+      ],
+      "optional": [
+        "lab.health.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "expedicoes": {
+      "required": [
+        "expeditions.embed"
+      ],
+      "optional": [],
+      "fallback": "unavailable_embedded_surface"
+    },
+    "research-profile": {
+      "required": [
+        "lab.research.read"
+      ],
+      "optional": [],
+      "fallback": "disconnected_state"
+    },
+    "milestones": {
+      "required": [
+        "lab.research.read"
+      ],
+      "optional": [],
+      "fallback": "disconnected_state"
+    },
+    "short-term": {
+      "required": [
+        "lab.research.read"
+      ],
+      "optional": [],
+      "fallback": "disconnected_state"
+    },
+    "registry": {
+      "required": [
+        "registry.catalog"
+      ],
+      "optional": [
+        "registry.list",
+        "registry.inspect",
+        "registry.propose",
+        "registry.admit"
+      ],
+      "fallback": "contract_catalog_only"
+    },
+    "sensors": {
+      "required": [
+        "sensors.read"
+      ],
+      "optional": [
+        "sensors.import",
+        "sensors.sync",
+        "registry.admit"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "knowledge": {
+      "required": [
+        "knowledge.read"
+      ],
+      "optional": [
+        "registry.inspect"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "docs": {
+      "required": [
+        "docs.read"
+      ],
+      "optional": [
+        "registry.inspect"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "human": {
+      "required": [
+        "human.read"
+      ],
+      "optional": [
+        "schedules.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "santo-andre": {
+      "required": [
+        "spaces.read"
+      ],
+      "optional": [
+        "workorders.read",
+        "schedules.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "machines": {
+      "required": [
+        "machines.read"
+      ],
+      "optional": [
+        "machines.protected_action",
+        "runtimes.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "runtimes": {
+      "required": [
+        "runtimes.read"
+      ],
+      "optional": [
+        "machines.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "llms": {
+      "required": [
+        "llms.read"
+      ],
+      "optional": [
+        "benchmarks.read",
+        "costs.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "agents": {
+      "required": [
+        "agents.read"
+      ],
+      "optional": [
+        "llms.read",
+        "workorders.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "research": {
+      "required": [
+        "research.workbench"
+      ],
+      "optional": [
+        "docs.read",
+        "benchmarks.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "planned_or_disconnected"
+    },
+    "benchmarks": {
+      "required": [
+        "benchmarks.read"
+      ],
+      "optional": [
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "planned_or_disconnected"
+    },
+    "code": {
+      "required": [
+        "code.workbench"
+      ],
+      "optional": [
+        "llms.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "planned_or_disconnected"
+    },
+    "reviews": {
+      "required": [
+        "reviews.read"
+      ],
+      "optional": [
+        "reviews.decide",
+        "gates.read",
+        "receipts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "financeiro": {
+      "required": [
+        "finance.read"
+      ],
+      "optional": [
+        "vendors.read",
+        "costs.read",
+        "docs.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "costs": {
+      "required": [
+        "costs.read"
+      ],
+      "optional": [
+        "vendors.read",
+        "receipts.read",
+        "registry.inspect"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "vendors": {
+      "required": [
+        "vendors.read"
+      ],
+      "optional": [
+        "finance.read",
+        "legal.read",
+        "docs.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "legal": {
+      "required": [
+        "legal.read"
+      ],
+      "optional": [
+        "docs.read",
+        "vendors.read",
+        "registry.inspect"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "policies": {
+      "required": [
+        "policies.read"
+      ],
+      "optional": [
+        "policies.manage",
+        "gates.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "gates": {
+      "required": [
+        "gates.read"
+      ],
+      "optional": [
+        "gates.decide",
+        "policies.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "secrets": {
+      "required": [
+        "secrets.references.read"
+      ],
+      "optional": [
+        "policies.read",
+        "connections.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "connections": {
+      "required": [
+        "connections.read"
+      ],
+      "optional": [
+        "connections.configure",
+        "secrets.references.read",
+        "policies.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "schedules": {
+      "required": [
+        "schedules.read"
+      ],
+      "optional": [
+        "schedules.manage",
+        "workorders.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "analytics": {
+      "required": [
+        "analytics.read"
+      ],
+      "optional": [
+        "costs.read",
+        "receipts.read",
+        "ghosts.read",
+        "workorders.read"
+      ],
+      "fallback": "planned_or_disconnected"
+    },
+    "settings": {
+      "required": [
+        "settings.read"
+      ],
+      "optional": [
+        "settings.manage",
+        "connections.read",
+        "secrets.references.read",
+        "policies.read"
+      ],
+      "fallback": "planned_or_disconnected"
+    },
+    "workorders": {
+      "required": [
+        "workorders.read"
+      ],
+      "optional": [
+        "workorders.manage",
+        "registry.inspect",
+        "gates.read",
+        "receipts.read",
+        "ghosts.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "receipts": {
+      "required": [
+        "receipts.read"
+      ],
+      "optional": [
+        "registry.inspect",
+        "workorders.read"
+      ],
+      "fallback": "disconnected_state"
+    },
+    "ghosts": {
+      "required": [
+        "ghosts.read"
+      ],
+      "optional": [
+        "ghosts.resolve",
+        "registry.inspect",
+        "workorders.read",
+        "receipts.read"
+      ],
+      "fallback": "disconnected_state"
+    }
+  },
+  "provider_rules": {
+    "capability_missing_from_handshake": "unknown",
+    "required_capability_unavailable": "render_surface_with_unavailable_state",
+    "optional_capability_unavailable": "hide_or_disable_only_the_dependent_control",
+    "never_remove_navigation_item_because_provider_lacks_capability": true,
+    "never_replace_live_data_with_unmarked_demo_data": true,
+    "never_claim_write_success_without_provider_receipt": true
+  }
+} as const;

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>minilab.work</title>
+  </head>
+  <body class="bg-page text-neutral-100 font-sans antialiased">
+    <div id="root"></div>
+    <!-- Minilab is provider-neutral. Same-origin /api is the platform contract;
+         a deployment decides which backend or adapter satisfies it. -->
+    <script>window.__MINILAB_API_BASE_URL = "/";</script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

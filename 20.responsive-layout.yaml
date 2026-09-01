@@ -1,0 +1,15 @@
+schema: minilab.ui.responsive_layout.v1
+document_type: responsive_layout
+breakpoints:
+  desktop: '>= 768px'
+  mobile: < 768px
+desktop:
+  layout: sidebar_middle_preview
+  preview: right_rail
+  sidebar: fixed_or_resizable
+  resize_handles: true
+mobile:
+  sidebar: drawer
+  preview: full_screen_route
+  resizable_panels: false
+  priority: after_desktop_v1
